@@ -42,6 +42,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $token;
 
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $username;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -139,6 +144,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setToken(?string $token): self
     {
         $this->token = $token;
+
+        return $this;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
 
         return $this;
     }
