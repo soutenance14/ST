@@ -36,10 +36,11 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit/password", name="user_edit", methods={"GET","POST"})
+     * @Route("/edit/password", name="user_edit", methods={"GET","POST"})
      */
-    public function editPassword(Request $request, User $user, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function editPassword(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
+        $user = $this->getUser();
         $form = $this->createForm(UserPasswordType::class, $user);
         $form->handleRequest($request);
 
@@ -55,14 +56,14 @@ class UserController extends AbstractController
             return $this->redirectToRoute('_profiler_home', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('user/edit.html.twig', [
+        return $this->renderForm('user/edit_password.html.twig', [
             'user' => $user,
             'form' => $form,
         ]);
     }
 
     // /**
-    //  * @Route("/{id}", name="user_delete", methods={"POST"})
+    //  * @Route("/delete", name="user_delete", methods={"POST"})
     //  */
     // public function delete(Request $request, User $user): Response
     // {
