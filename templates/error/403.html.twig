@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Erreur 403!{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+    <p>
+    Erreur 403, Vous n'avez pas les autorisations requises pour povoir accéder à cette page,
+    veuillez vous authentifier via un compte ayant les droits suffisants.
+    </p>
+     <a href="{{ path('app_login') }}">S'authentifier</a>
+{% endblock %}
