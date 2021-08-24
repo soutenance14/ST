@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UserPasswordType;
+use App\Form\UserEditPasswordType;
 use App\Form\UserResetPasswordType;
 use App\Form\ForgottenPasswordType;
 use App\Repository\UserRepository;
@@ -40,7 +40,7 @@ class UserController extends AbstractController
     public function editPassword(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = $this->getUser();
-        $form = $this->createForm(UserPasswordType::class, $user);
+        $form = $this->createForm(UserEditPasswordType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
