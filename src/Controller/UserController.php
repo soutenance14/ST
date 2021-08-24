@@ -40,7 +40,7 @@ class UserController extends AbstractController
     public function editPassword(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = $this->getUser();
-        $form = $this->createForm(UserResetPasswordType::class, $user);
+        $form = $this->createForm(UserPasswordType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -112,7 +112,7 @@ class UserController extends AbstractController
      */
     public function resetPassword(Request $request, UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder, $email, $token): Response
     {
-        $form = $this->createForm(UserPasswordType::class);
+        $form = $this->createForm(UserResetPasswordType::class);
         $form->handleRequest($request);
         
         $error_message = "";
