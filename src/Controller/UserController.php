@@ -15,6 +15,8 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+
 /**
  * @Route("/user")
  */
@@ -66,7 +68,7 @@ class UserController extends AbstractController
         $error_message ='';
         $form = $this->createForm(ForgottenPasswordType::class);
         $form->handleRequest($request);
-
+        
         if ($form->isSubmitted() && $form->isValid()) {
             
             $email = $form->get('email')->getData();
@@ -86,7 +88,7 @@ class UserController extends AbstractController
                 $this->getDoctrine()->getManager()->flush();
                 try
                 {   
-                    $this->sendEmail($mailer, $user->getEmail(), $user->getToken());
+                    $this->sendEmail($mailer, $user);
                     return $this->redirectToRoute('_profiler_home', [], Response::HTTP_SEE_OTHER);
                 }
                 catch(TransportException $e)
@@ -100,6 +102,44 @@ class UserController extends AbstractController
             // 'user' => $user,
             'form' => $form,
             'error_message' => $error_message,
+        ]);
+    }
+
+
+    /**
+     * @Route("/reset/password/{email}/{token}", name="reset_password", methods={"GET","POST"})
+     */
+    public function resetPassword(Request $request, UserRepository $userRepository, UserPasswordEncoderInterface $passwordEncoder, $email, $token): Response
+    {
+        $form = $this->createForm(UserPasswordType::class);
+        $form->handleRequest($request);
+        
+        $error_message = "";
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
+            $user = $userRepository->findOneByEmail($email);
+            if($user !== null)
+            {
+                if($user->getToken() === $token)
+                {
+                    $user->setPassword(
+                        $passwordEncoder->encodePassword(
+                            $user,
+                            $form->get('plainPassword')->getData()
+                        )
+                    );
+                    $this->getDoctrine()->getManager()->flush();
+                    return $this->redirectToRoute('_profiler_home', [], Response::HTTP_SEE_OTHER);
+                }
+                else
+                {
+                    $error_message = "Impossible d\'effectuer le changement pour cause de mauvais token";
+                }
+            }
+        }
+        return $this->renderForm('user/reset_password_from_link.html.twig', [
+             'error_message' => $error_message,
+             'form' => $form,
         ]);
     }
 
@@ -117,15 +157,24 @@ class UserController extends AbstractController
     //     return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
     // }
 
-    private function sendEmail(MailerInterface $mailerInterface, $emailTo, $token)
+    private function sendEmail(MailerInterface $mailerInterface, $user)
     {
         $emailFrom = $this->getParameter('app.admin_email');
-        $link = '<a href="google.com"></a>';
-        $email=(new Email())
+       
+        $email=(new TemplatedEmail())
         ->from($emailFrom)
-        ->to($emailTo)
+        ->to($user->getEmail())
         ->subject('Link to reset password for Snow Tricks!')
-        ->text($link);
+        
+        // path of the Twig template to render
+        ->htmlTemplate('email/reset_password.html.twig', [
+            'user' => $user
+        ])
+
+        // pass variables (name => value) to the template
+        ->context([
+            'user' => $user
+        ]);
         $mailerInterface->send($email);
     }
 }
