@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserPasswordType;
+use App\Form\UserResetPasswordType;
 use App\Form\ForgottenPasswordType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,7 +40,7 @@ class UserController extends AbstractController
     public function editPassword(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $user = $this->getUser();
-        $form = $this->createForm(UserPasswordType::class, $user);
+        $form = $this->createForm(UserResetPasswordType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
