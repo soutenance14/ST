@@ -15,7 +15,7 @@ class ForgottenPasswordType extends AbstractType
         $builder
             ->add('email', EmailType::class, [
                 'mapped' => false,
-                // 'attr' => ['autocomplete' => 'email']
+                 'attr' => ['autocomplete' => 'email']
                 ])
         ;
     }
