@@ -14,6 +14,14 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% block body %}
+            {% block menu %}
+                <nav>
+                    <li><a href="{{ path('home') }}">Home<a/></li>
+                    <li><a href="{{ path('user_show') }}">User<a/></li>
+                    <li><a href="{{ path('user_edit_password') }}">Edit password<a/></li>
+                </nav>
+            {% endblock %}
+        {% endblock %}
     </body>
 </html>
