@@ -42,4 +42,3 @@ security:
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/user, roles: ROLE_SUBSCRIBER }
         - { path: ^/trick/new, roles: ROLE_SUBSCRIBER }
-        # - { path: ^/user/edit/password, roles: ROLE_USER }
