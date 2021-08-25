@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Image;
 use App\Entity\Trick;
 use App\Form\TrickType;
 use App\Repository\TrickRepository;
@@ -50,25 +51,33 @@ class TrickController extends AbstractController
                     '#' => 'hashtag',
                     ]
                 ]);
+            $entityManager = $this->getDoctrine()->getManager();
             $slug = $slugger->slug($trick->getTitle());
             //can use this to
             // $slug = $slugger->slug($form->get('title')->getData());
             $trick->setSlug($slug);
-
-            //images part
-            $images = $form->get("images")->getData();     
-            foreach($images as $image)
-            {
-                $this->saveImageInServer($image);
-            }
-            
+            $trick->setUser($this->getUser());
             $trick->setCreatedAt(new DateTimeImmutable());
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($trick);
             
             try
             {  
-                // if slug not exists in db, this will be good
+                // if slug not exists in db, trick can be save in db
+                //first flush for trick
+                $entityManager->flush();
+
+                // images part
+                // save image only if UniqueConstraintViolationException
+                // is not generated
+                $images = $form->get("images")->getData();     
+                foreach($images as $fileImage)
+                {
+                    $image = $this->createImageEntity($fileImage);
+                    $this->saveImageInServer($fileImage, $image);
+                    $image->setTrick($trick);
+                    $entityManager->persist($image);
+                }
+                // second flush for image
                 $entityManager->flush();
                 return $this->redirectToRoute('trick_index', [], Response::HTTP_SEE_OTHER);
             }
@@ -130,21 +139,25 @@ class TrickController extends AbstractController
 
         return $this->redirectToRoute('trick_index', [], Response::HTTP_SEE_OTHER);
     }
-
-    private function saveImageInServer($image)
+    
+    private function createImageEntity($fileImage)
     {
+        //ex name: rabbit.jpg
+        $name_with_extension = $fileImage->getClientOriginalName();
+        //name become: rabbit
+        $name_without_extension = pathinfo($name_with_extension, PATHINFO_FILENAME);
+        //generate unique name
+        $fileName = $name_without_extension . "-" .md5(uniqid()) . '.' .$fileImage->guessExtension();
         
-        // get name + extension ex: snow.jpg
-        $name_with_extension = $image->getClientOriginalName(); 
-        // get name without extension
-        $name = pathinfo($name_with_extension, PATHINFO_FILENAME);
-        
-        //generate an unique name for file
-        $fileName = $name . "-" . md5(uniqid()) . '.' .$image->guessExtension();
-        
-        //save image in folder
-        $image->move(
-            $this->getParameter('image_trick'),
-            $fileName);
+        $image = new Image();
+        $image->setName($fileName);
+        return $image;
     }
+    
+    private function saveImageInServer($fileImage, Image $image)
+    {
+        $fileImage->move(
+            $this->getParameter('image_trick'), $image->getName());
+    }
+
 }
