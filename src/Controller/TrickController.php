@@ -123,6 +123,8 @@ class TrickController extends AbstractController
 
         return $this->renderForm('trick/edit.html.twig', [
             'trick' => $trick,
+            
+            'image_trick_path' => $this->getParameter("image_trick").'/',
             'form' => $form,
         ]);
     }
@@ -153,6 +155,7 @@ class TrickController extends AbstractController
         return $this->redirectToRoute('trick_index', [], Response::HTTP_SEE_OTHER);
     }
     
+    // private functions
     private function createImageEntity($fileImage)
     {
         //ex name: rabbit.jpg
