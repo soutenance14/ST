@@ -39,6 +39,7 @@ class TrickController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //slugger part
             //en for the moment, maybe fr after
             $slugger = new AsciiSlugger('en',[
                 'en' => [
@@ -53,11 +54,21 @@ class TrickController extends AbstractController
             //can use this to
             // $slug = $slugger->slug($form->get('title')->getData());
             $trick->setSlug($slug);
+
+            //images part
+            $images = $form->get("images")->getData();     
+            foreach($images as $image)
+            {
+                $this->saveImageInServer($image);
+            }
+            
             $trick->setCreatedAt(new DateTimeImmutable());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($trick);
+            
             try
-            {
+            {  
+                // if slug not exists in db, this will be good
                 $entityManager->flush();
                 return $this->redirectToRoute('trick_index', [], Response::HTTP_SEE_OTHER);
             }
@@ -118,5 +129,22 @@ class TrickController extends AbstractController
         }
 
         return $this->redirectToRoute('trick_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    private function saveImageInServer($image)
+    {
+        
+        // get name + extension ex: snow.jpg
+        $name_with_extension = $image->getClientOriginalName(); 
+        // get name without extension
+        $name = pathinfo($name_with_extension, PATHINFO_FILENAME);
+        
+        //generate an unique name for file
+        $fileName = $name . "-" . md5(uniqid()) . '.' .$image->guessExtension();
+        
+        //save image in folder
+        $image->move(
+            $this->getParameter('image_trick'),
+            $fileName);
     }
 }

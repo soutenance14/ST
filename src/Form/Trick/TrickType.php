@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Trick;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,7 +15,10 @@ class TrickType extends AbstractType
         $builder
             ->add('title')
             ->add('content')
-            ->add('slug')
+            ->add("images", FileType::class,[
+                "mapped" => false,
+                "multiple" => true
+            ]);
         ;
     }
 
