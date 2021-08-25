@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Trick{% endblock %}
+
+{% block body %}
+    <h1>Create new Trick</h1>
+
+    {{ include('trick/_form.html.twig') }}
+    {% if error_message != false %}
+        <div class="alert alert-danger">
+            {{ error_message }}
+        </div>
+    {% endif %}
+    <a href="{{ path('trick_index') }}">back to list</a>
+{% endblock %}
