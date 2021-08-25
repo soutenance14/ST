@@ -3,16 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UserEditPasswordType;
-use App\Form\UserResetPasswordType;
-use App\Form\ForgottenPasswordType;
+use App\Form\User\UserEditPasswordType;
+use App\Form\User\UserResetPasswordType;
+use App\Form\User\UserForgottenPasswordType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -68,7 +67,7 @@ class UserController extends AbstractController
     public function forgottenPassword(Request $request, UserRepository $userRepository, MailerInterface $mailer): Response
     {
         $error_message ='';
-        $form = $this->createForm(ForgottenPasswordType::class);
+        $form = $this->createForm(UserForgottenPasswordType::class);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
