@@ -17,7 +17,8 @@ class TrickType extends AbstractType
             ->add('content')
             ->add("images", FileType::class,[
                 "mapped" => false,
-                "multiple" => true
+                "multiple" => true,
+                "required" => false,
             ]);
         ;
     }

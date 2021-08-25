@@ -56,6 +56,7 @@ class TrickController extends AbstractController
             //can use this to
             // $slug = $slugger->slug($form->get('title')->getData());
             $trick->setSlug($slug);
+            $trick->setUser($this->getUser());
             $trick->setCreatedAt(new DateTimeImmutable());
             $entityManager->persist($trick);
             
