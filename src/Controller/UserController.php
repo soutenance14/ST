@@ -3,16 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UserEditPasswordType;
-use App\Form\UserResetPasswordType;
-use App\Form\ForgottenPasswordType;
+use App\Form\User\UserEditPasswordType;
+use App\Form\User\UserResetPasswordType;
+use App\Form\User\UserForgottenPasswordType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportException;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -53,7 +52,7 @@ class UserController extends AbstractController
             );
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('_profiler_home', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('user/edit_password.html.twig', [
@@ -68,7 +67,7 @@ class UserController extends AbstractController
     public function forgottenPassword(Request $request, UserRepository $userRepository, MailerInterface $mailer): Response
     {
         $error_message ='';
-        $form = $this->createForm(ForgottenPasswordType::class);
+        $form = $this->createForm(UserForgottenPasswordType::class);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) {
@@ -91,7 +90,7 @@ class UserController extends AbstractController
                 try
                 {   
                     $this->sendEmail($mailer, $user);
-                    return $this->redirectToRoute('_profiler_home', [], Response::HTTP_SEE_OTHER);
+                    return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
                 }
                 catch(TransportException $e)
                 {
@@ -131,7 +130,7 @@ class UserController extends AbstractController
                         )
                     );
                     $this->getDoctrine()->getManager()->flush();
-                    return $this->redirectToRoute('_profiler_home', [], Response::HTTP_SEE_OTHER);
+                    return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
                 }
                 else
                 {
