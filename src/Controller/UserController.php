@@ -52,7 +52,7 @@ class UserController extends AbstractController
             );
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('_profiler_home', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('user/edit_password.html.twig', [
@@ -90,7 +90,7 @@ class UserController extends AbstractController
                 try
                 {   
                     $this->sendEmail($mailer, $user);
-                    return $this->redirectToRoute('_profiler_home', [], Response::HTTP_SEE_OTHER);
+                    return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
                 }
                 catch(TransportException $e)
                 {
@@ -130,7 +130,7 @@ class UserController extends AbstractController
                         )
                     );
                     $this->getDoctrine()->getManager()->flush();
-                    return $this->redirectToRoute('_profiler_home', [], Response::HTTP_SEE_OTHER);
+                    return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
                 }
                 else
                 {
