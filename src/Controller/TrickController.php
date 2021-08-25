@@ -9,6 +9,7 @@ use App\Repository\TrickRepository;
 use DateTimeImmutable;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -131,9 +132,21 @@ class TrickController extends AbstractController
      */
     public function delete(Request $request, Trick $trick): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$trick->getId(), $request->request->get('_token'))) {
+        if ($trick->getUser()->getId() === $this->getUser()->getId()
+                && $this->isCsrfTokenValid(
+                    'delete'.$trick->getId(),
+                     $request->request->get('_token'))
+                    )
+            {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($trick);
+            
+            foreach($trick->getImages() as $image)
+            {
+                $entityManager->remove($image);
+                $this->deleteImageInServer($image);
+            }
+
             $entityManager->flush();
         }
 
@@ -159,5 +172,13 @@ class TrickController extends AbstractController
         $fileImage->move(
             $this->getParameter('image_trick'), $image->getName());
     }
+
+    private function deleteImageInServer(Image $image)
+    {
+        $fileSystem = new Filesystem();
+        $fileSystem->remove($this->getParameter("image_trick") . '/' . $image->getName());
+    }
+
+
 
 }
