@@ -1,5 +1,5 @@
 <?php
-
+// add table user
 declare(strict_types=1);
 
 namespace DoctrineMigrations;
