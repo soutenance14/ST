@@ -82,7 +82,7 @@ class TrickController extends AbstractController
                 }
 
                 //video part
-                $video = $form->get("video")->getData();
+                $video = $form->get("videos")->getData();
                 $video->setTrick($trick);
                 $entityManager->persist($video);
 

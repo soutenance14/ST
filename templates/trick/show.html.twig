@@ -47,6 +47,23 @@
         {% endfor %}
     </div>
     <br>
+    
+    <hr>
+    <h3>Videos</h3>
+    <div>
+        {% for video in trick.videos %}
+            <div>
+                <h6>{{ video.url }}</h6>
+                <iframe width="731" height="411" src="{{ video.url }}" 
+                    title="YouTube video player" frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write;
+                    encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                </iframe>
+            </div>           
+        {% endfor %}
+    </div>
+    <br>
+
     <a href="{{ path('trick_index') }}">back to list</a>
 
     <a href="{{ path('trick_edit', {'id': trick.id}) }}">edit</a>
