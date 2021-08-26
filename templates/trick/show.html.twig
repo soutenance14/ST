@@ -3,8 +3,8 @@
 {% block title %}Trick{% endblock %}
 
 {% block body %}
+    <a href="{{ path('trick_index') }}">back to list</a>
     <h1>Trick</h1>
-
     <table class="table">
         <tbody>
             <tr>
@@ -34,6 +34,19 @@
         </tbody>
     </table>
 
+    <hr>
+    <h3>Images</h3>
+    <div>
+        {% for image in trick.images %}
+            <div>
+                <h6>{{ image.name }}</h6>
+                
+                <img style="width:200px; height:200px" 
+                src="{{ asset('image/trick/'~image.name) }}">
+            </div>           
+        {% endfor %}
+    </div>
+    <br>
     <a href="{{ path('trick_index') }}">back to list</a>
 
     <a href="{{ path('trick_edit', {'id': trick.id}) }}">edit</a>
