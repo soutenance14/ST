@@ -3,14 +3,8 @@
 {% block title %}Edit Trick{% endblock %}
 
 {% block body %}
+    <a href="{{ path('trick_index') }}">back to list</a>
     <h1>Edit Trick</h1>
-
-    {# {{ include('trick/_form.html.twig', {'button_label': 'Update'}) }} #}
-
-    {# {% for image in trick.getImages %}
-        <img src="{{ asset('image/trick/'~image.getName) }}">
-    {% endfor %} #}
-
 
     {{ form_start(form) }}
         <h1>Valeurs</h1>
@@ -29,14 +23,22 @@
         {{ form_label(form.images) }}
         {{ form_errors(form.images) }}
         <ul>
-        {% for image in form.images %}
+        {% for imageForm in form.images %}
         
             <div style="background: rgb(220, 220, 240); 
             padding: 5px; margin-bottom:5px; padding-left: 25%"> 
-                {{ form_errors(image) }}
-                <h6>{{image.name.vars.value}}</h6>
-                {{ form_widget(image) }}
-                <img style="width:200px; height:200px" src="{{ asset('image/trick/'~image.name.vars.value) }}">
+                {{ form_errors(imageForm) }}
+                <h6>{{imageForm.name.vars.value}}</h6>
+                {{ form_widget(imageForm.delete) }}
+                
+                {# hidden field but necessary for getting name
+                 if the widget is not adding here, twig will add
+                 it but with a bad display
+                 #}
+                {{ form_widget(imageForm.name) }}
+                {# hidden field #}
+                
+                <img style="width:50px; height:50px" src="{{ asset('image/trick/'~imageForm.name.vars.value) }}">
             </div> 
             
         {% endfor %}
