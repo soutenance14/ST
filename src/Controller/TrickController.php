@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Image;
 use App\Entity\Trick;
 use App\Form\Trick\TrickEditType;
-use App\Form\Trick\TrickType;
+use App\Form\Trick\TrickNewType;
 use App\Repository\TrickRepository;
 use DateTimeImmutable;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -38,7 +38,7 @@ class TrickController extends AbstractController
     {
         $error_message = false;
         $trick = new Trick();
-        $form = $this->createForm(TrickType::class, $trick);
+        $form = $this->createForm(TrickNewType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
