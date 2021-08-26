@@ -22,7 +22,12 @@ class TrickEditType extends AbstractType
                 // "mapped" => false,
                 // "multiple" => true,
                 "required" => false,
-            ]);
+            ])
+            ->add("new_images", FileType::class,[
+                "mapped" => false,
+                "multiple" => true,
+                "required" => false,
+            ])
         ;
     }
 
