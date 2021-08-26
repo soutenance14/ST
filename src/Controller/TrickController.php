@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Image;
 use App\Entity\Trick;
+use App\Entity\Video;
 use App\Form\Trick\TrickEditType;
 use App\Form\Trick\TrickNewType;
 use App\Repository\TrickRepository;
@@ -79,7 +80,13 @@ class TrickController extends AbstractController
                     $image->setTrick($trick);
                     $entityManager->persist($image);
                 }
-                // second flush for image
+
+                //video part
+                $video = $form->get("video")->getData();
+                $video->setTrick($trick);
+                $entityManager->persist($video);
+
+                // second flush for image and video
                 $entityManager->flush();
                 return $this->redirectToRoute('trick_index', [], Response::HTTP_SEE_OTHER);
             }
@@ -156,21 +163,35 @@ class TrickController extends AbstractController
                     $entityManager->persist($image);
                 }
 
-                // Delete images part
+                // Delete existing images part
                 $existing_images = $form->get("images");
                 
                 foreach($existing_images as $existing_image)
                 {
+                    $image = $existing_image->getData();
                     $delete = $existing_image->get("delete")->getData();
                     if($delete)
                     {
-                        $image = $existing_image->getData();
                         $entityManager->remove($image);
                         $this->deleteImageInServer($image);
                     }
                 }
                
-                // second flush for images
+                // Delete or edit existing videos part
+                // if url is updated, this will be saved
+                $existing_videos = $form->get("videos");
+                
+                foreach($existing_videos as $existing_video)
+                {
+                    $video = $existing_video->getData();
+                    $delete = $existing_video->get("delete")->getData();
+                    if($delete)
+                    {
+                        $entityManager->remove($video);
+                    }
+                }
+               
+                // second flush for images and video
                 $entityManager->flush();
                 return $this->redirectToRoute('trick_index', [], Response::HTTP_SEE_OTHER);
             }
@@ -209,6 +230,10 @@ class TrickController extends AbstractController
                 $this->deleteImageInServer($image);
             }
 
+            foreach($trick->getVideos() as $video)
+            {
+                $entityManager->remove($video);
+            }
             $entityManager->flush();
         }
 
@@ -241,7 +266,5 @@ class TrickController extends AbstractController
         $fileSystem = new Filesystem();
         $fileSystem->remove($this->getParameter("image_trick") . '/' . $image->getName());
     }
-
-
 
 }

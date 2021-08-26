@@ -23,25 +23,51 @@
         {{ form_label(form.images) }}
         {{ form_errors(form.images) }}
         <ul>
-        {% for imageForm in form.images %}
-        
-            <div style="background: rgb(220, 220, 240); 
-            padding: 5px; margin-bottom:5px; padding-left: 25%"> 
-                {{ form_errors(imageForm) }}
-                <h6>{{imageForm.name.vars.value}}</h6>
-                {{ form_widget(imageForm.delete) }}
-                
-                {# hidden field but necessary for getting name
-                 if the widget is not adding here, twig will add
-                 it but with a bad display
-                 #}
-                {{ form_widget(imageForm.name) }}
-                {# hidden field #}
-                
-                <img style="width:50px; height:50px" src="{{ asset('image/trick/'~imageForm.name.vars.value) }}">
-            </div> 
+            {% for imageForm in form.images %}
             
-        {% endfor %}
+                <div style="background: rgb(220, 220, 240); 
+                padding: 5px; margin-bottom:5px; padding-left: 25%; padding-right: 25%;"> 
+                    {{ form_errors(imageForm) }}
+                    {# {{ form_label(imageForm.name) }} #}
+                    <h6>{{imageForm.name.vars.value}}</h6>
+                    {{ form_label(imageForm.delete) }}
+                    {{ form_widget(imageForm.delete) }}
+                    
+                    {# hidden field but necessary for getting name
+                    if the widget is not adding here, twig will add
+                    it but with a bad display
+                    #}
+                    {{ form_widget(imageForm.name) }}
+                    {# hidden field #}
+                    <hr>
+                    <img style="width:50px; height:50px" src="{{ asset('image/trick/'~imageForm.name.vars.value) }}">
+                </div>  
+            {% endfor %}
+       </ul>
+        <div>
+            {{ form_label(form.new_images) }}
+            {{ form_errors(form.new_images) }}
+            {{ form_widget(form.new_images) }}
+        </div>
+        <hr>
+        {{ form_label(form.videos) }}
+        {{ form_errors(form.videos) }}
+        <ul>
+            {% for videoForm in form.videos %}
+            
+                <div style="background: rgb(220, 180, 180); 
+                padding: 5px; margin-bottom:5px; padding-left: 25%; padding-right: 25%;"> 
+                    {{ form_errors(videoForm) }}
+                    {# {{ form_label(videoForm.url) }} #}
+                    <h6>{{videoForm.url.vars.value}}</h6>
+                    {{ form_label(videoForm.delete) }}
+                    {{ form_widget(videoForm.delete) }}
+                    <hr>
+                    {{ form_label(videoForm.url) }}
+                    {{ form_widget(videoForm.url) }}
+                </div> 
+            {% endfor %}
+        </ul>
         <button class="btn">{{ button_label|default('Update') }}</button>
     {{ form_end(form) }}
 
