@@ -82,10 +82,15 @@ class TrickController extends AbstractController
                 }
 
                 //video part
-                $video = $form->get("videos")->getData();
-                $video->setTrick($trick);
-                $entityManager->persist($video);
-
+                $videos = $form->get("videos")->getData();
+                foreach($videos as $video)
+                {
+                    if( null !== $video)
+                    {
+                        $video->setTrick($trick);
+                        $entityManager->persist($video);
+                    }
+                }
                 // second flush for image and video
                 $entityManager->flush();
                 return $this->redirectToRoute('trick_index', [], Response::HTTP_SEE_OTHER);
@@ -188,6 +193,17 @@ class TrickController extends AbstractController
                     if($delete)
                     {
                         $entityManager->remove($video);
+                    }
+                }
+
+                //new video part
+                $new_videos = $form->get("new_videos")->getData();
+                foreach($new_videos as $video)
+                {
+                    if( null !== $video)
+                    {
+                        $video->setTrick($trick);
+                        $entityManager->persist($video);
                     }
                 }
                

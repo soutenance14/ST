@@ -23,6 +23,7 @@
         {{ form_label(form.images) }}
         {{ form_errors(form.images) }}
         <ul>
+            <h5>Existing Images</h5>
             {% for imageForm in form.images %}
             
                 <div style="background: rgb(220, 220, 240); 
@@ -53,6 +54,7 @@
         {{ form_label(form.videos) }}
         {{ form_errors(form.videos) }}
         <ul>
+            <h5>Existing videos</h5>
             {% for videoForm in form.videos %}
             
                 <div style="background: rgb(220, 180, 180); 
@@ -68,14 +70,23 @@
                 </div> 
             {% endfor %}
         </ul>
+
+        <h3>New Videos</h3>
+        <ul class="videos" data-prototype="{{ form_widget(form.new_videos.vars.prototype)|e('html_attr') }}"></ul>
+            <button type="button" class="add_item_link" data-collection-holder-class="videos">Add a video</button>
+            {% for video in form.new_videos %}
+                <li>{{ form_row(video.url) }}</li>
+            {% endfor %}
+        </ul>
         <button class="btn">{{ button_label|default('Update') }}</button>
     {{ form_end(form) }}
-
-     {# {{ form_start(form) }}
-        {{ form_row(form.images) }}
-     {{ form_end(form) }} #}
 
     <a href="{{ path('trick_index') }}">back to list</a>
 
     {{ include('trick/_delete_form.html.twig') }}
+{% endblock %}
+
+{% block script %}
+    {{ parent() }}
+    <script src="{{ asset('js/add_video.js') }}"></script>
 {% endblock %}

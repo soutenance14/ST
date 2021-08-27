@@ -5,11 +5,33 @@
 {% block body %}
     <h1>Create new Trick</h1>
 
-    {{ include('trick/_form.html.twig') }}
+    {# {{ include('trick/_form.html.twig') }} #}
+
+    {{ form_start(form) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.content) }}
+    {{ form_row(form.images) }}
+   
+
+        <h3>Videos</h3>
+        <ul class="videos" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}"></ul>
+            <button type="button" class="add_item_link" data-collection-holder-class="videos">Add a video</button>
+            {% for video in form.videos %}
+                <li>{{ form_row(video.url) }}</li>
+            {% endfor %}
+        </ul>
+
+        <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+
     {% if error_message != false %}
         <div class="alert alert-danger">
             {{ error_message }}
         </div>
     {% endif %}
     <a href="{{ path('trick_index') }}">back to list</a>
+{% endblock %}
+{% block script %}
+    {{ parent() }}
+    <script src="{{ asset('js/add_video.js') }}"></script>
 {% endblock %}
