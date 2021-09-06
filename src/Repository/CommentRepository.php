@@ -47,4 +47,16 @@ class CommentRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    // public function findByCreatedAtPagination($first_value, $max): ?Comment
+    // {
+    //     return $this->createQueryBuilder('c')
+            
+    //         ->orderBy('c.createdAt', 'DESC')
+    //         // ->setFirstResult($first_value)
+    //         // ->setMaxResults($max)
+    //         ->getQuery()
+    //         ->getOneOrNullResult()
+    //     ;
+    // }
 }
