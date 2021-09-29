@@ -64,9 +64,16 @@
     </div>
     <br>
 
+    <h3>Comment</h3> <button type="button" id="load_more">Load More</button>
+    <br>
     <a href="{{ path('trick_index') }}">back to list</a>
 
     <a href="{{ path('trick_edit', {'id': trick.id}) }}">edit</a>
 
     {{ include('trick/_delete_form.html.twig') }}
+{% endblock %}
+
+{% block script %}
+    {{ parent() }}
+    <script src="{{ asset('js/load_comment.js') }}"></script>
 {% endblock %}
