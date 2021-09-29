@@ -6,11 +6,15 @@ use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * @Route("/comment")
@@ -44,14 +48,27 @@ class CommentController extends AbstractController
     /**
      * @Route("/{trickId}/{limit}/{offset}", name="comment_more", methods={"POST"})
      */
-    public function more(CommentRepository $commentRepository, $trickId, $limit, $offset): Response
+    public function more(CommentRepository $commentRepository, $trickId, $limit, $offset)
     {
         $fields = array('trick' => $trickId);
         $orderBy = array('createdAt' => 'DESC');
         
         $data = $commentRepository->findBy(
         $fields, $orderBy, $limit, $offset);
-        return new JsonResponse($data);
+
+        $normalizers = [new ObjectNormalizer()];
+        
+        $encoders = [new JsonEncoder()];
+        
+        $serializer = new Serializer($normalizers, $encoders);
+        $jsonContent = $serializer->serialize($data, 'json', [
+            'circular_reference_handler' => function($object){
+                return $object->getId();
+            }
+        ]);
+        
+        return new Response($jsonContent);
+        // return new Response(json_encode($data));
     }
 
     /**

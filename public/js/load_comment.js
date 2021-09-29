@@ -1,12 +1,13 @@
 
 //const & var
 const addComment = (data)=>{
+  // obj = JSON.parse(data);
   const comment = document.createElement('div');
   comment.innerHTML= data;
   comment.setAttribute("class","comment");
   document.querySelector("body").appendChild(comment);
   offset +=2; 
-  console.log("test");
+  console.log("json");
 }
 
 var limit = 2;
