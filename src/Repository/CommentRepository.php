@@ -48,15 +48,36 @@ class CommentRepository extends ServiceEntityRepository
     }
     */
 
-    // public function findByCreatedAtPagination($first_value, $max): ?Comment
+    // public function findComments($trick_id, $first_value, $max): ?Comment
     // {
     //     return $this->createQueryBuilder('c')
-            
-    //         ->orderBy('c.createdAt', 'DESC')
+    //         ->select('c.trick')
+    //         ->andWhere('c.trick =:val')
+    //         ->setParameter('val', $trick_id)
+    //         // ->orderBy('c.createdAt', 'DESC')
     //         // ->setFirstResult($first_value)
     //         // ->setMaxResults($max)
     //         ->getQuery()
-    //         ->getOneOrNullResult()
+    //         ->getResult()
     //     ;
     // }
+
+    public function findComments($trick_id, $limit, $offset): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = "
+            SELECT c.contenu, c.created_at, u.email FROM comment c
+            inner join 
+            user u
+            on u.id = c.user_id
+            WHERE c.trick_id = :trick_id
+            ";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute(['trick_id' => $trick_id]);
+        // $stmt->execute(['price' => $price]);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $stmt->fetchAllAssociative();
+    }
 }

@@ -50,25 +50,13 @@ class CommentController extends AbstractController
      */
     public function more(CommentRepository $commentRepository, $trickId, $limit, $offset)
     {
-        $fields = array('trick' => $trickId);
-        $orderBy = array('createdAt' => 'DESC');
         
-        $data = $commentRepository->findBy(
-        $fields, $orderBy, $limit, $offset);
-
-        $normalizers = [new ObjectNormalizer()];
+        $data = $commentRepository->findComments(
+        $trickId, $limit, $offset);
         
-        $encoders = [new JsonEncoder()];
-        
-        $serializer = new Serializer($normalizers, $encoders);
-        $jsonContent = $serializer->serialize($data, 'json', [
-            'circular_reference_handler' => function($object){
-                return $object->getId();
-            }
-        ]);
-        
-        return new Response($jsonContent);
-        // return new Response(json_encode($data));
+        return new Response(json_encode([
+            "message"=>"success",
+            "data"=>$data]));
     }
 
     /**
