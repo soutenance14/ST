@@ -68,23 +68,17 @@ function sendData( url)
   });
 
   // Configurez la requête
-  // XHR.open("POST", "https://example.com/cors.php");
   XHR.open("POST", url);
-  // XHR.open("POST", "sendMessage");
   
   // Ajoutez l"en-tête HTTP requise pour requêtes POST de données de formulaire
   XHR.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
   // Finalement, envoyez les données.
-  // XHR.onreadystatechange = function() 
   XHR.onreadystatechange = function() 
-  {//Call a function when the state changes.
-    if(typeof hideSomethingSpecific === "function"){  
-      hideSomethingSpecific();
+  {
+    if(XHR.readyState === 4 && XHR.status == 200) {
+          addComment(XHR.responseText);
     }
-      if(XHR.readyState === 4 && XHR.status == 200) {
-            addComment(XHR.responseText);
-      }
   }
   XHR.send(url);
 }
