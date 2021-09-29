@@ -2,7 +2,7 @@
 //const & var
 const addComment = (data)=>{
   // obj = JSON.parse(data);
-  const comment = document.createElement('div');
+  const comment = document.createElement("div");
   comment.innerHTML= data;
   comment.setAttribute("class","comment");
   document.querySelector("body").appendChild(comment);
@@ -15,7 +15,7 @@ var offset = 0;
 
 //management
   document
-.querySelector('#load_more')
+.querySelector("#load_more")
 .addEventListener("click",(e)=> {
 if(typeof(urlInit) !== "undefined")
 {
@@ -67,14 +67,14 @@ function sendData(data, url)
   // XHR.onreadystatechange = function() 
   XHR.onreadystatechange = function() 
   {//Call a function when the state changes.
-    if(typeof hideSomethingSpecific === 'function'){  
+    if(typeof hideSomethingSpecific === "function"){  
       hideSomethingSpecific();
     }
       if(XHR.readyState === 4 && XHR.status == 200) {
           if(XHR.responseText === "success")
           {
               successMessage.style.display = "block";
-              if(typeof doSomethingSpecificSuccess === 'function'){
+              if(typeof doSomethingSpecificSuccess === "function"){
                 doSomethingSpecificSuccess();
                 console.log("eee");
               }
@@ -82,7 +82,7 @@ function sendData(data, url)
           else if(XHR.responseText === "error")
           {
             errorMessage.style.display = "block";
-            if(typeof doSomethingSpecificError === 'function'){
+            if(typeof doSomethingSpecificError === "function"){
               doSomethingSpecificError();
               console.log("eee");
             }
@@ -92,7 +92,7 @@ function sendData(data, url)
             // errorMessage.style.display = "block";
             // errorMessage.innerHTML = XHR.responseText;
             // errorMessage.className = "text-center text-danger mb-3";
-            if(typeof doSomethingSpecificError === 'function'){
+            if(typeof doSomethingSpecificError === "function"){
               doSomethingSpecificError();
             }
             addComment(XHR.responseText);

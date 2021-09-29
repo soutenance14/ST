@@ -19,49 +19,6 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
-    // /**
-    //  * @return Comment[] Returns an array of Comment objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Comment
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
-
-    // public function findComments($trick_id, $first_value, $max): ?Comment
-    // {
-    //     return $this->createQueryBuilder('c')
-    //         ->select('c.trick')
-    //         ->andWhere('c.trick =:val')
-    //         ->setParameter('val', $trick_id)
-    //         // ->orderBy('c.createdAt', 'DESC')
-    //         // ->setFirstResult($first_value)
-    //         // ->setMaxResults($max)
-    //         ->getQuery()
-    //         ->getResult()
-    //     ;
-    // }
-
     public function findComments($trick_id, $limit, $offset): array
     {
         $conn = $this->getEntityManager()->getConnection();
