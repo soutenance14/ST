@@ -7,6 +7,7 @@ use App\Form\CommentType;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,18 +27,31 @@ class CommentController extends AbstractController
         ]);
     }
     
+    // /**
+    //  * @Route("/{trickId}/{limit}/{offset}", name="comment_more", methods={"GET", "POST"})
+    //  */
+    // public function more(CommentRepository $commentRepository, $trickId, $limit, $offset): Response
+    // {
+    //     $fields = array('trick' => $trickId);
+    //     $orderBy = array('createdAt' => 'DESC');
+    //     return $this->render('comment/index.html.twig', [
+    //         'comments' => $commentRepository->findBy(
+    //             $fields, $orderBy, $limit, $offset),
+    //     ]);
+        
+    // }
+    
     /**
-     * @Route("/{trickId}/{limit}/{offset}", name="comment_more", methods={"GET"})
+     * @Route("/{trickId}/{limit}/{offset}", name="comment_more", methods={"POST"})
      */
     public function more(CommentRepository $commentRepository, $trickId, $limit, $offset): Response
     {
         $fields = array('trick' => $trickId);
         $orderBy = array('createdAt' => 'DESC');
-        return $this->render('comment/index.html.twig', [
-            'comments' => $commentRepository->findBy(
-                $fields, $orderBy, $limit, $offset),
-        ]);
         
+        $data = $commentRepository->findBy(
+        $fields, $orderBy, $limit, $offset);
+        return new JsonResponse($data);
     }
 
     /**

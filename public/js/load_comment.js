@@ -1,38 +1,31 @@
+
+//const & var
 const addComment = (data)=>{
   const comment = document.createElement('div');
   comment.innerHTML= data;
   comment.setAttribute("class","comment");
   document.querySelector("body").appendChild(comment);
+  offset +=2; 
   console.log("test");
 }
 
-  //management
+var limit = 2;
+var offset = 0;
+
+//management
   document
 .querySelector('#load_more')
 .addEventListener("click",(e)=> {
-if(typeof(url) !== "undefined")
+if(typeof(urlInit) !== "undefined")
 {
-  sendDataOnClick(url);
+  post =[];
+  url = createUrl( limit, offset)
+  sendData(post, url);
 }
-else
-{
-  console.log("lpmp");
-}
-  // commentData = getCommentData();
   e.preventDefault();
-  addComment("test")
 });
 
-
-function sendDataOnClick( url)
-{
-  if(trick_id !== "undefined")
-  {
-    post =[];
-    post[trick_id] =   5 ;
-    sendData(post, url);
-  }
-}
+//function
 
 function sendData(data, url) 
 {
@@ -41,15 +34,15 @@ function sendData(data, url)
   var urlEncodedDataPairs = [];
   var name;
 
-  // Transformez l"objet data en un tableau de paires clé/valeur codées URL.
-  for(name in data) {
-    urlEncodedDataPairs.push(encodeURIComponent(name) + "=" + encodeURIComponent(data[name]));
-  }
+  // // Transformez l"objet data en un tableau de paires clé/valeur codées URL.
+  // for(name in data) {
+  //   urlEncodedDataPairs.push(encodeURIComponent(name) + "=" + encodeURIComponent(data[name]));
+  // }
 
-  // Combinez les paires en une seule chaîne de caractères et remplacez tous
-  // les espaces codés en % par le caractère"+" ; cela correspond au comportement
-  // des soumissions de formulaires de navigateur.
-  urlEncodedData = urlEncodedDataPairs.join("&").replace(/%20/g, "+");
+  // // Combinez les paires en une seule chaîne de caractères et remplacez tous
+  // // les espaces codés en % par le caractère"+" ; cela correspond au comportement
+  // // des soumissions de formulaires de navigateur.
+  // urlEncodedData = urlEncodedDataPairs.join("&").replace(/%20/g, "+");
 
   // Définissez ce qui se passe en cas de succès de soumission de données
   // XHR.addEventListener("load", function(event) {
@@ -95,18 +88,16 @@ function sendData(data, url)
           }
           else
           {
-            errorMessage.style.display = "block";
-            errorMessage.innerHTML = XHR.responseText;
-            errorMessage.className = "text-center text-danger mb-3";
+            // errorMessage.style.display = "block";
+            // errorMessage.innerHTML = XHR.responseText;
+            // errorMessage.className = "text-center text-danger mb-3";
             if(typeof doSomethingSpecificError === 'function'){
               doSomethingSpecificError();
             }
+            addComment(XHR.responseText);
           }
       }
-      // else{
-      //     alert("pas de reponse");
-      // }
   }
-  XHR.send(urlEncodedData);
+  XHR.send(url);
 }
 

@@ -76,8 +76,13 @@
 {% block script %}
     {{ parent() }}
 <script>
-    var url = "https://127.0.0.1:8000/comment/more"
-    var trick_id = 5
+    // var url = "https://127.0.0.1:8000/{{trick.id}}/2/0"
+    var urlInit = "https://127.0.0.1:8000/comment/{{ trick.id }}"
+    
+    const createUrl = (limit, offset)=>{
+        return urlInit + "/" + limit + "/" + offset
+    };
+
 </script>    
 <script src="{{ asset('js/load_comment.js') }}"></script>
 {% endblock %}

@@ -32,6 +32,16 @@ class TrickController extends AbstractController
         ]);
     }
 
+     /**
+     * @Route("/{id}", name="trick_show", methods={"GET"})
+     */
+    public function show(Trick $trick): Response
+    {
+        return $this->render('trick/show.html.twig', [
+            'trick' => $trick,
+        ]);
+    }
+
     /**
      * @Route("/new", name="trick_new", methods={"GET","POST"})
      */
@@ -107,16 +117,6 @@ class TrickController extends AbstractController
             'error_message' => $error_message,
             'trick' => $trick,
             'form' => $form,
-        ]);
-    }
-
-    /**
-     * @Route("/{id}", name="trick_show", methods={"GET"})
-     */
-    public function show(Trick $trick): Response
-    {
-        return $this->render('trick/show.html.twig', [
-            'trick' => $trick,
         ]);
     }
 
