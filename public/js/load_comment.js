@@ -1,13 +1,44 @@
 
 //const & var
 const addComment = (data)=>{
-  // obj = JSON.parse(data);
-  const comment = document.createElement("div");
-  comment.innerHTML= data;
-  comment.setAttribute("class","comment");
-  document.querySelector("body").appendChild(comment);
-  offset +=2; 
-  console.log("json");
+  try
+  {
+    const componentComments = document.createElement("div");
+    obj = JSON.parse(data);
+    if(obj.message === "success")
+    {
+      comments = obj.data;
+      comments.forEach(comment => {
+        oneComponent = document.createElement("div");
+        user = document.createElement("div");
+        contenu = document.createElement("div");
+        createdAt = document.createElement("div");
+        
+        user.innerHTML = comment.email;
+        contenu.innerHTML = comment.contenu;
+        createdAt.innerHTML = comment.created_at;
+        
+        oneComponent.appendChild(user);
+        oneComponent.appendChild(contenu);
+        oneComponent.appendChild(createdAt);
+
+        componentComments.appendChild(oneComponent);
+        console.log(obj.theoffset + "the offset")
+      });
+      offset +=2; 
+      componentComments.setAttribute("class","comment");
+      document.querySelector("body").appendChild(componentComments);
+    }
+    else
+    {
+      alert("Pas de commentaires supplémentaires trouvés.");
+    }
+  }
+  catch(e)
+  {
+    alert("Impossible d'accéder aux données");
+  }
+  
 }
 
 var limit = 2;
@@ -19,36 +50,17 @@ var offset = 0;
 .addEventListener("click",(e)=> {
 if(typeof(urlInit) !== "undefined")
 {
-  post =[];
   url = createUrl( limit, offset)
-  sendData(post, url);
+  sendData( url);
 }
   e.preventDefault();
 });
 
 //function
 
-function sendData(data, url) 
+function sendData( url) 
 {
   var XHR = new XMLHttpRequest();
-  var urlEncodedData = "";
-  var urlEncodedDataPairs = [];
-  var name;
-
-  // // Transformez l"objet data en un tableau de paires clé/valeur codées URL.
-  // for(name in data) {
-  //   urlEncodedDataPairs.push(encodeURIComponent(name) + "=" + encodeURIComponent(data[name]));
-  // }
-
-  // // Combinez les paires en une seule chaîne de caractères et remplacez tous
-  // // les espaces codés en % par le caractère"+" ; cela correspond au comportement
-  // // des soumissions de formulaires de navigateur.
-  // urlEncodedData = urlEncodedDataPairs.join("&").replace(/%20/g, "+");
-
-  // Définissez ce qui se passe en cas de succès de soumission de données
-  // XHR.addEventListener("load", function(event) {
-  //   alert("Ouais ! Données envoyées et réponse chargée.");
-  // });
 
   // Définissez ce qui arrive en cas d"erreur
   XHR.addEventListener("error", function(event) {
@@ -71,32 +83,7 @@ function sendData(data, url)
       hideSomethingSpecific();
     }
       if(XHR.readyState === 4 && XHR.status == 200) {
-          if(XHR.responseText === "success")
-          {
-              successMessage.style.display = "block";
-              if(typeof doSomethingSpecificSuccess === "function"){
-                doSomethingSpecificSuccess();
-                console.log("eee");
-              }
-          }
-          else if(XHR.responseText === "error")
-          {
-            errorMessage.style.display = "block";
-            if(typeof doSomethingSpecificError === "function"){
-              doSomethingSpecificError();
-              console.log("eee");
-            }
-          }
-          else
-          {
-            // errorMessage.style.display = "block";
-            // errorMessage.innerHTML = XHR.responseText;
-            // errorMessage.className = "text-center text-danger mb-3";
-            if(typeof doSomethingSpecificError === "function"){
-              doSomethingSpecificError();
-            }
             addComment(XHR.responseText);
-          }
       }
   }
   XHR.send(url);

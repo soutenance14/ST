@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\ParameterType;
 use Doctrine\Persistence\ManagerRegistry;
+use PDO;
 
 /**
  * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
@@ -21,6 +23,8 @@ class CommentRepository extends ServiceEntityRepository
 
     public function findComments($trick_id, $limit, $offset): array
     {
+        $limit = intval($limit);
+        $offset = intval($offset);
         $conn = $this->getEntityManager()->getConnection();
 
         $sql = "
@@ -29,11 +33,10 @@ class CommentRepository extends ServiceEntityRepository
             user u
             on u.id = c.user_id
             WHERE c.trick_id = :trick_id
-            ";
+            limit " .$offset . " , " .$limit;
         $stmt = $conn->prepare($sql);
+        $stmt->bindParam(":trick_id", $trick_id);
         $stmt->execute(['trick_id' => $trick_id]);
-        // $stmt->execute(['price' => $price]);
-
         // returns an array of arrays (i.e. a raw data set)
         return $stmt->fetchAllAssociative();
     }

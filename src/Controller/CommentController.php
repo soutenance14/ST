@@ -54,9 +54,14 @@ class CommentController extends AbstractController
         $data = $commentRepository->findComments(
         $trickId, $limit, $offset);
         
-        return new Response(json_encode([
-            "message"=>"success",
-            "data"=>$data]));
+        if($data !== null && count($data) > 0)
+        {
+            return new Response(json_encode([
+                "message"=>"success",
+                "theoffset"=>$offset,
+                "data"=>$data]));
+        }
+        return new Response(json_encode(["message"=>"error"]));
     }
 
     /**
