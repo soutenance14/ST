@@ -1,0 +1,97 @@
+
+
+    <div class="container px-4 px-lg-5">
+        <div class="row gx-4 gx-lg-5 justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <p>Créer un nouveau commentaire</p>
+                <div class="my-5">
+                    <div id="form" method ='post'>
+                        <div class="form-floating post-form" id="contenu" >
+                            <textarea class="form-control postTextarea" name="contenu" type="text" placeholder="Enter your message here..." style="height: 12rem" data-sb-validations="required"></textarea>
+                            <label for="contenu">Contenu</label>
+                            <div class="invalid-feedback" data-sb-feedback="contenu:required">Un texte de 3 caractères minimum est nécessaire.</div>
+                            <div class="invalid-feedback specific-feedback" data-sb-feedback="newPassword:required">Le texte est inférieur à 3 caractères!</div>
+                        </div>
+                         
+                        {# <div class="post-form hide"  id="trickId">
+                            <input class="form-control" name="trickId" type="text" value="{{trick.id}}" />   
+                        </div> #}
+
+                        <br />
+                       {# <img id="progress_bar" class="hide" src="assets/img/gif/chargement2.gif"/> #}
+                        
+                        <div id="submitSuccessMessage">
+                            <div class="text-center mb-3">
+                                <div class="fw-bolder">Le commentaire à été enregistré avec succés.</div>
+                            </div>
+                        </div>
+
+                        <!-- Submit error message-->
+                        <!---->
+                        <!-- This is what your users will see when there is-->
+                        <!-- an error submitting the form-->
+                        <div id="submitErrorMessage"><div class="text-center text-danger mb-3">Erreur le commentaire n'a pas été enregistré.</div></div>
+                        <!-- Submit Button-->
+                        {# <button class="btn btn-primary text-uppercase" id="submitButton" type="submit">Envoyer</button> #}
+                        <button class="btn btn-primary text-uppercase" id="submitButton">Créer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+{% block js %}
+    {# <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script> #}
+
+    <script>
+
+        var contenu = (document.getElementById("contenu").getElementsByClassName("form-control"))[0];
+
+        var invalidSpecificContenu = (document.getElementById("contenu").getElementsByClassName("specific-feedback"))[0];
+
+        // // specific element will be verified
+        // var url = '../comment/new/{{ trick.id }}';
+
+        function createURL()
+        {
+           return '../comment/new/{{ trick.id }}/' + contenu.value;
+        }
+
+        function displaySomethingSpecific()
+        {
+            //progress_bar.style.display = 'block';
+        }
+        
+        function hideSomethingSpecific()
+        {
+            //progress_bar.style.display = 'none';
+        }
+        
+        function doSomethingSpecificSuccess()
+        {
+            //progress_bar.style.display = 'none';
+        }
+        
+        function doSomethingSpecificError()
+        {
+            //progress_bar.style.display = 'none';
+        }
+
+        function validFormSpecificPage()
+        {
+            var $validFormSpecificPage = true;
+
+            if(contenu['value'].length < 3)
+            { 
+                $validFormSpecificPage = false;
+                invalidSpecificContenu.style.display = 'block';
+                invalidSpecificContenu.style.display = 'block';
+            }
+            return $validFormSpecificPage;
+        }
+        // ce script doit être ecexuter avant le script ci dessous
+    </script>
+    <script src="{{ asset('js/submit.js') }}"></script>
+{% endblock %}
