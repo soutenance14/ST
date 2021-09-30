@@ -27,6 +27,7 @@ const addComment = (data)=>{
         // createdAt = document.createElement("div");
         
         user.innerHTML = comment.email;
+        
         contenu.innerHTML = comment.contenu;
         // createdAt.innerHTML = comment.createdAt;
         
@@ -36,7 +37,7 @@ const addComment = (data)=>{
 
         componentComments.appendChild(oneComponent);
       });
-      offset = obj.offset + 2; 
+      offset = obj.offset + limit; 
       componentComments.setAttribute("class","comment");
       document.querySelector("body").appendChild(componentComments);
     }
@@ -48,24 +49,30 @@ const addComment = (data)=>{
   
 }
 
-var offset = 0;
-var limit = 2;
+//init check and send (for the first comments)
+checkAndSend(offset, limit);
 
 //management
   document
 .querySelector("#load_more")
 .addEventListener("click",(e)=> {
-if(typeof(urlInit) !== "undefined")
-{
-  url = createUrl( offset, limit)
-  sendData( url);
-}
+  checkAndSend( offset, limit);
   e.preventDefault();
 });
 
 //function
 
-function sendData( url) 
+function checkAndSend( offset, limit)
+{
+  if( typeof(urlInit) !== "undefined" 
+      &&  typeof(offset) !== "undefined"
+      &&  typeof(limit) !== "undefined")
+  {
+    url = createUrl(urlInit, offset, limit)
+    sendTo( url);
+  }
+} 
+function sendTo( url) 
 {
   var XHR = new XMLHttpRequest();
 
