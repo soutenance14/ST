@@ -76,11 +76,11 @@
 {% block script %}
     {{ parent() }}
 <script>
-    // var url = "https://127.0.0.1:8000/{{trick.id}}/2/0"
+    // var url = "https://127.0.0.1:8000/{{trick.id}}/0/2"
     var urlInit = "https://127.0.0.1:8000/comment/{{ trick.id }}"
     
-    const createUrl = (limit, offset)=>{
-        return urlInit + "/" + limit + "/" + offset
+    const createUrl = (offset, limit)=>{
+        return urlInit + "/" + offset + "/" + limit
     };
 
 </script>    

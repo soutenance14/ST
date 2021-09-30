@@ -5,44 +5,51 @@ const addComment = (data)=>{
   {
     const componentComments = document.createElement("div");
     obj = JSON.parse(data);
-    if(obj.message === "success")
+    console.log(obj);
+    if(obj.status === "noComment")
     {
-      comments = obj.data;
+      // TODO replace by innerHTML in message noComment (create the div in twig)
+      alert("Pas de commentaires supplémentaires trouvés."); 
+    }
+    else if(obj.status === "error")
+    {
+      // TODO replace by innerHTML in message error (create the div in twig)
+      message = "Une erreur innatendue est survenue:"+ obj.code + " " + obj.message;
+      alert(message);
+    }
+    else if(obj.status === "success")
+    {
+      comments = JSON.parse(obj.data);
       comments.forEach(comment => {
         oneComponent = document.createElement("div");
         user = document.createElement("div");
         contenu = document.createElement("div");
-        createdAt = document.createElement("div");
+        // createdAt = document.createElement("div");
         
         user.innerHTML = comment.email;
         contenu.innerHTML = comment.contenu;
-        createdAt.innerHTML = comment.created_at;
+        // createdAt.innerHTML = comment.createdAt;
         
         oneComponent.appendChild(user);
         oneComponent.appendChild(contenu);
-        oneComponent.appendChild(createdAt);
+        // oneComponent.appendChild(createdAt);
 
         componentComments.appendChild(oneComponent);
-        console.log(obj.theoffset + "the offset")
       });
-      offset +=2; 
+      offset = obj.offset + 2; 
       componentComments.setAttribute("class","comment");
       document.querySelector("body").appendChild(componentComments);
-    }
-    else
-    {
-      alert("Pas de commentaires supplémentaires trouvés.");
     }
   }
   catch(e)
   {
-    alert("Impossible d'accéder aux données");
+    alert("Impossible d'accéder aux données " + e.message);
   }
   
 }
 
-var limit = 2;
 var offset = 0;
+var limit = 2;
 
 //management
   document
@@ -50,7 +57,7 @@ var offset = 0;
 .addEventListener("click",(e)=> {
 if(typeof(urlInit) !== "undefined")
 {
-  url = createUrl( limit, offset)
+  url = createUrl( offset, limit)
   sendData( url);
 }
   e.preventDefault();
@@ -76,8 +83,8 @@ function sendData( url)
   // Finalement, envoyez les données.
   XHR.onreadystatechange = function() 
   {
-    if(XHR.readyState === 4 && XHR.status == 200) {
-          addComment(XHR.responseText);
+    if(XHR.readyState === 4 && XHR.status === 200) {
+      addComment(XHR.responseText);
     }
   }
   XHR.send(url);

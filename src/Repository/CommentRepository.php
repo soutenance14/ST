@@ -4,9 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\ParameterType;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
-use PDO;
 
 /**
  * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
@@ -21,23 +20,19 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
-    public function findComments($trick_id, $limit, $offset): array
+    public function findComments($trickId, $offset, $limit)
     {
-        $limit = intval($limit);
-        $offset = intval($offset);
-        $conn = $this->getEntityManager()->getConnection();
-
-        $sql = "
-            SELECT c.contenu, c.created_at, u.email FROM comment c
-            inner join 
-            user u
-            on u.id = c.user_id
-            WHERE c.trick_id = :trick_id
-            limit " .$offset . " , " .$limit;
-        $stmt = $conn->prepare($sql);
-        $stmt->bindParam(":trick_id", $trick_id);
-        $stmt->execute(['trick_id' => $trick_id]);
-        // returns an array of arrays (i.e. a raw data set)
-        return $stmt->fetchAllAssociative();
+        return $this->createQueryBuilder('c')
+            ->select('c.contenu, c.createdAt, u.email')
+            ->innerJoin('App\Entity\user', 'u', Join::WITH, 'u = c.user')
+            ->innerJoin('App\Entity\trick', 't', Join::WITH, 't = c.trick')
+            ->andWhere('t.id = :val')
+            ->setParameter('val', $trickId)
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
     }
+
 }

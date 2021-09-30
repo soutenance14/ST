@@ -46,23 +46,53 @@ class CommentController extends AbstractController
     // }
     
     /**
-     * @Route("/{trickId}/{limit}/{offset}", name="comment_more", methods={"POST"})
+     * @Route("/{trickId}/{offset}/{limit}", name="comment_more", methods={"POST"})
      */
-    public function more(CommentRepository $commentRepository, $trickId, $limit, $offset)
+    public function more(CommentRepository $commentRepository, $trickId, $offset, $limit)
     {
-        
-        $data = $commentRepository->findComments(
-        $trickId, $limit, $offset);
-        
-        if($data !== null && count($data) > 0)
+        try
+        {
+            $data = $commentRepository->findComments(
+                $trickId, $offset, $limit);
+                
+            if($data !== null && count($data) > 0)
+            {
+                $normalizer = [new ObjectNormalizer()];
+                
+                $encoders = [new JsonEncoder()];
+                
+                $serializer = new Serializer($normalizer, $encoders);
+                
+                $options = [
+                    'circular_reference_handler'=>function($object){
+                        return $object->__toString();
+                    }
+                ];
+                // $jsonSerialize = $serializer->serialize($data, 'json', $options);
+                // If the query can generate circular reference, use the previous line
+                
+                $jsonSerialize = $serializer->serialize($data, 'json');
+                
+                $jsonContent = json_encode([
+                    "status"=>"success",
+                    "offset"=>$offset,
+                    "data"=>$jsonSerialize
+                ]);
+                return new Response($jsonContent);
+            }
+            return new Response(json_encode([
+                "status"=>"noComment"
+            ]));
+        }
+        catch(Exception $e)
         {
             return new Response(json_encode([
-                "message"=>"success",
-                "theoffset"=>$offset,
-                "data"=>$data]));
+                "status"=>"error",
+                "message"=>$e->getMessage(),
+                "code"=>$e->getCode()
+            ]));
         }
-        return new Response(json_encode(["message"=>"error"]));
-    }
+}
 
     /**
      * @Route("/new", name="comment_new", methods={"GET","POST"})
