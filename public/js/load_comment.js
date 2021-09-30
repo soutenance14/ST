@@ -37,40 +37,45 @@ const addComment = (data)=>{
 
         componentComments.appendChild(oneComponent);
       });
-      offset = obj.offset + limit; 
       componentComments.setAttribute("class","comment");
       document.querySelector("body").appendChild(componentComments);
     }
   }
   catch(e)
   {
+    offset -= limit;
     alert("Impossible d'accéder aux données " + e.message);
   }
-  
 }
 
 //init check and send (for the first comments)
-checkAndSend(offset, limit);
+if(  typeof(offset) !== "undefined"
+    &&  typeof(limit) !== "undefined"
+    &&  typeof(urlInit) !== "undefined")
+{
+  checkAndSend(urlInit, offset, limit);
+}
 
 //management
   document
 .querySelector("#load_more")
 .addEventListener("click",(e)=> {
-  checkAndSend( offset, limit);
+  if(  typeof(offset) !== "undefined"
+    &&  typeof(limit) !== "undefined"
+    &&  typeof(urlInit) !== "undefined")
+  {
+    offset += limit;
+    checkAndSend(urlInit, offset, limit);
+  }
   e.preventDefault();
 });
 
 //function
 
-function checkAndSend( offset, limit)
+function checkAndSend(urlInit, offset, limit)
 {
-  if( typeof(urlInit) !== "undefined" 
-      &&  typeof(offset) !== "undefined"
-      &&  typeof(limit) !== "undefined")
-  {
-    url = createUrl(urlInit, offset, limit)
-    sendTo( url);
-  }
+  url = createUrl(urlInit, offset, limit)
+  sendTo( url);
 } 
 function sendTo( url) 
 {

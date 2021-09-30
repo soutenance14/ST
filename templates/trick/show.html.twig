@@ -77,8 +77,8 @@
     {{ parent() }}
 <script>
     const urlInit = "https://127.0.0.1:8000/comment/{{ trick.id }}"
-    var offset = {{offset}};
-    const limit = {{limit}};
+    var offset = {{offsetComment}};
+    const limit = {{limitComment}};
     const createUrl = (urlInit, offset, limit)=>{
         return urlInit + "/" + offset + "/" + limit
     };

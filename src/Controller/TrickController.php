@@ -39,8 +39,8 @@ class TrickController extends AbstractController
     {
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
-            'offset' => 0,
-            'limit' => 2,
+            'offsetComment' => 0,
+            'limitComment' => 2,
         ]);
     }
 
