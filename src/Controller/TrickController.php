@@ -41,6 +41,8 @@ class TrickController extends AbstractController
             'trick' => $trick,
             'offsetComment' => 0,
             'limitComment' => 2,
+            'user' => $this->getUser(),
+            'headImage' => "home",
         ]);
     }
 

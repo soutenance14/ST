@@ -1,32 +1,100 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {# Run `composer require symfony/webpack-encore-bundle`
-           and uncomment the following Encore helpers to start using Symfony UX #}
-        {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
-        {% endblock %}
-
-        {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
-        {% endblock %}
+        {# {% block head %} #}
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        {# <title>{{title}}</title> #}
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        
+        <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
+        <link href="{{ asset('css/loginButton.css') }}" rel="stylesheet" />
+        
+        {% block css %}{% endblock %}
+        {# {% endblock %} #}
     </head>
     <body>
-        {% block body %}
-            {% block menu %}
-                <nav>
-                    <li><a href="{{ path('home') }}">Home<a/></li>
-                    <li><a href="{{ path('app_register') }}">Register<a/></li>
-                    <li><a href="{{ path('user_show') }}">User<a/></li>
-                    <li><a href="{{ path('user_edit_password') }}">Edit password<a/></li>
-                    <li><a href="{{ path('trick_index') }}">Trick<a/></li>
-                </nav>
+        <!-- Navigation-->
+        {% block nav %}
+                {% if user is not null and 'ROLE_SUBSCRIBER' in user.roles %}
+                    {% include 'menu/menuAuth.twig' %}
+                {% else %}                  
+                    {% include 'menu/menuBase.twig' %}
+                {% endif %}
             {% endblock %}
+        <!-- Page Header-->
+        {% block header %}
+        {# {% endblock %} #}
+    
+        <header class="masthead" style="background-image: url('{{ asset('image/' ~ headImage ~ '.jpg') }}')">
+            <div class="container position-relative px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                        <div class="site-heading">
+                            {# <h1 class="subheading break-word">{{title}}</h1> #}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
         {% endblock %}
+        <!-- Main Content-->
+        
+            <div class="container px-4 px-lg-5" style="min-height:350px">
+                {% block container %}
+                {% endblock %}
+            </div>
+            
+        <!-- Footer-->
+        <footer class="border-top">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5 justify-content-center">
+                    <div class="col-md-10 col-lg-8 col-xl-7">
+                         {# {% if user.getType == 'admin' %}
+                            <a class="nav-link px-lg-3 py-3 py-lg-4" href="{{root}}admin/2d2823792eb6e1996c9a82cf3396546f">Menu Administration</a>
+                        {% endif %} #}
+                        <ul class="list-inline text-center">
+                            <li class="list-inline-item">
+                                <a href="https://twitter.com/soutenance14?lang=fr">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://www.linkedin.com/in/soutenance-quatorze-19ab3721b/">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="https://github.com/soutenance14">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fas fa-circle fa-stack-2x"></i>
+                                        <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="small text-center text-muted fst-italic">Copyright &copy; Soutenance14 Blog 2021</div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        {% block script %}{% endblock %}
     </body>
 </html>
-{% block script %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-{% endblock %}
