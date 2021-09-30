@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,44 +20,19 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
-    // /**
-    //  * @return Comment[] Returns an array of Comment objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findComments($trickId, $offset, $limit)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+            ->select('c.contenu, c.createdAt, u.email')
+            ->innerJoin('App\Entity\user', 'u', Join::WITH, 'u = c.user')
+            ->innerJoin('App\Entity\trick', 't', Join::WITH, 't = c.trick')
+            ->andWhere('t.id = :val')
+            ->setParameter('val', $trickId)
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Comment
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
-
-    // public function findByCreatedAtPagination($first_value, $max): ?Comment
-    // {
-    //     return $this->createQueryBuilder('c')
-            
-    //         ->orderBy('c.createdAt', 'DESC')
-    //         // ->setFirstResult($first_value)
-    //         // ->setMaxResults($max)
-    //         ->getQuery()
-    //         ->getOneOrNullResult()
-    //     ;
-    // }
 }

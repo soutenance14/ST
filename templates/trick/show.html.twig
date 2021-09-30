@@ -64,9 +64,25 @@
     </div>
     <br>
 
+    <h3>Comment</h3> <button type="button" id="load_more">Load More</button>
+    <br>
     <a href="{{ path('trick_index') }}">back to list</a>
 
     <a href="{{ path('trick_edit', {'id': trick.id}) }}">edit</a>
 
     {{ include('trick/_delete_form.html.twig') }}
+{% endblock %}
+
+{% block script %}
+    {{ parent() }}
+<script>
+    const urlInit = "https://127.0.0.1:8000/comment/{{ trick.id }}"
+    var offset = {{offsetComment}};
+    const limit = {{limitComment}};
+    const createUrl = (urlInit, offset, limit)=>{
+        return urlInit + "/" + offset + "/" + limit
+    };
+
+</script>    
+<script src="{{ asset('js/load_comment.js') }}"></script>
 {% endblock %}

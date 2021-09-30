@@ -6,10 +6,15 @@ use App\Entity\Comment;
 use App\Form\CommentType;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * @Route("/comment")
@@ -26,19 +31,68 @@ class CommentController extends AbstractController
         ]);
     }
     
-    /**
-     * @Route("/{trickId}/{limit}/{offset}", name="comment_more", methods={"GET"})
-     */
-    public function more(CommentRepository $commentRepository, $trickId, $limit, $offset): Response
-    {
-        $fields = array('trick' => $trickId);
-        $orderBy = array('createdAt' => 'DESC');
-        return $this->render('comment/index.html.twig', [
-            'comments' => $commentRepository->findBy(
-                $fields, $orderBy, $limit, $offset),
-        ]);
+    // /**
+    //  * @Route("/{trickId}/{limit}/{offset}", name="comment_more", methods={"GET", "POST"})
+    //  */
+    // public function more(CommentRepository $commentRepository, $trickId, $limit, $offset): Response
+    // {
+    //     $fields = array('trick' => $trickId);
+    //     $orderBy = array('createdAt' => 'DESC');
+    //     return $this->render('comment/index.html.twig', [
+    //         'comments' => $commentRepository->findBy(
+    //             $fields, $orderBy, $limit, $offset),
+    //     ]);
         
-    }
+    // }
+    
+    /**
+     * @Route("/{trickId}/{offset}/{limit}", name="comment_more", methods={"POST"})
+     */
+    public function more(CommentRepository $commentRepository, $trickId, $offset, $limit)
+    {
+        try
+        {
+            $data = $commentRepository->findComments(
+                $trickId, $offset, $limit);
+                
+            if($data !== null && count($data) > 0)
+            {
+                $normalizer = [new ObjectNormalizer()];
+                
+                $encoders = [new JsonEncoder()];
+                
+                $serializer = new Serializer($normalizer, $encoders);
+                
+                $options = [
+                    'circular_reference_handler'=>function($object){
+                        return $object->__toString();
+                    }
+                ];
+                // $jsonSerialize = $serializer->serialize($data, 'json', $options);
+                // If the query can generate circular reference, use the previous line
+                
+                $jsonSerialize = $serializer->serialize($data, 'json');
+                
+                $jsonContent = json_encode([
+                    "status"=>"success",
+                    "offset"=>$offset,
+                    "data"=>$jsonSerialize
+                ]);
+                return new Response($jsonContent);
+            }
+            return new Response(json_encode([
+                "status"=>"noComment"
+            ]));
+        }
+        catch(Exception $e)
+        {
+            return new Response(json_encode([
+                "status"=>"error",
+                "message"=>$e->getMessage(),
+                "code"=>$e->getCode()
+            ]));
+        }
+}
 
     /**
      * @Route("/new", name="comment_new", methods={"GET","POST"})
