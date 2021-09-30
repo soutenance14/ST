@@ -1,6 +1,6 @@
 
 //const & var
-const addComment = (data)=>{
+const addComment = (data) =>{
   try
   {
     const componentComments = document.createElement("div");
@@ -59,7 +59,7 @@ if(  typeof(offset) !== "undefined"
 //management
   document
 .querySelector("#load_more")
-.addEventListener("click",(e)=> {
+.addEventListener("click",(e) => {
   if(  typeof(offset) !== "undefined"
     &&  typeof(limit) !== "undefined"
     &&  typeof(urlInit) !== "undefined")
