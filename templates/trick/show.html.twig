@@ -2,7 +2,7 @@
 
 {% block title %}Trick{% endblock %}
 
-{% block body %}
+{% block container %}
     <a href="{{ path('trick_index') }}">back to list</a>
     <h1>Trick</h1>
     <table class="table">
@@ -64,7 +64,9 @@
     </div>
     <br>
 
-    <h3>Comment</h3> <button type="button" id="load_more">Load More</button>
+    <h3>Comment</h3> 
+    
+    <button type="button" id="load_more">Load More</button>
     <br>
     <a href="{{ path('trick_index') }}">back to list</a>
 

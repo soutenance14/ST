@@ -4,13 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Image;
 use App\Entity\Trick;
-use App\Entity\Video;
 use App\Form\Trick\TrickEditType;
 use App\Form\Trick\TrickNewType;
 use App\Repository\TrickRepository;
 use DateTimeImmutable;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +18,7 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 /**
  * @Route("/trick")
  */
-class TrickController extends AbstractController
+class TrickController extends CustomController
 {
     /**
      * @Route("/", name="trick_index", methods={"GET"})
@@ -41,6 +39,8 @@ class TrickController extends AbstractController
             'trick' => $trick,
             'offsetComment' => 0,
             'limitComment' => 2,
+            'user' => $this->getUser(),
+            // 'headerImage' => "home",
         ]);
     }
 
