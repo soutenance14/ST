@@ -1,17 +1,18 @@
 {% extends 'menu/menuBase.twig' %}   
 
 {% block menuName %}
-    Menu pour {{user.getLogin()}}
+    Menu pour {{user.username}}
 {% endblock %}
  {% block loginButton %}
     <div class="loginButton disconnectButton">
-        <a  href="{{root}}disconnect">Se déconnecter</a>
+        <a  href="{{ path('app_logout') }}">Se déconnecter</a>
     </div>
 {% endblock %}
-{% block articles %}
-    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{root}}posts">Articles</a></li>
-{% endblock %}
+{# {% block tricks %}
+    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('app_trick_par_exemple') }}">Articles</a></li>
+{% endblock %} #}
 {% block menuSupplement %}
-    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{root}}edit/password">Mot de passe</a></li>
+    {# TODO créer le menu admin #}
+    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="#">Menu Admin</a></li>
 {% endblock %}
                 
