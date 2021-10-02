@@ -1,0 +1,50 @@
+.list {
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.trick-in-list {
+  background-color: #007189;
+  margin: 5px;
+  max-width: 35%;
+}
+.trick-in-list img {
+  max-width: 100%;
+}
+.text-overflow {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: pre;
+}
+.h5-resize {
+  font-size: 0.6em;
+}
+@media screen and (min-width: 400px) {
+  .h5-resize {
+    font-size: 0.8em;
+  }
+}
+@media screen and (min-width: 600px) {
+  .h5-resize {
+    font-size: 1em;
+  }
+}
+@media screen and (min-width: 800px) {
+.h5-resize {
+  font-size: 1.2em;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .h5-resize {
+    font-size: 1.3em;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .h5-resize {
+    font-size: 1.4em;
+  }
+}
+
+

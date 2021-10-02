@@ -27,6 +27,7 @@ class TrickController extends CustomController
     {
         return $this->render('trick/index.html.twig', [
             'tricks' => $trickRepository->findAll(),
+            'title' => 'Tricks'
         ]);
     }
 
@@ -40,7 +41,8 @@ class TrickController extends CustomController
             'offsetComment' => 0,
             'limitComment' => 2,
             'user' => $this->getUser(),
-            // 'headerImage' => "home",
+            'title' => $trick->getTitle(),
+            'headerImage' => "home",
         ]);
     }
 
@@ -225,6 +227,7 @@ class TrickController extends CustomController
             'error_message' => $error_message,
             'trick' => $trick,
             'form' => $form,
+            'title' => $trick->getTitle(),
         ]);
     }
 

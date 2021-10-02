@@ -607,6 +607,7 @@ progress {
   margin-left: auto;
 }
 
+
 @media (min-width: 576px) {
   .container-sm, .container {
     max-width: 540px;
@@ -3800,6 +3801,7 @@ textarea.form-control-lg {
   margin-top: -1px;
 }
 .nav {
+  min-width: 300px;
   display: flex;
   flex-wrap: wrap;
   padding-left: 0;
@@ -10812,19 +10814,18 @@ header.masthead .site-heading .h1 {
     font-size: 2.25rem;
   }
 }
-
 .hide {
   display: none;
 }
-
 .clear {
   clear: both;
 }
-
 .special-color {
   color: #336BFF;
 }
-
 .break-word {
   word-wrap: break-word;
+}
+body, #mainNav, .navbar, .container {
+  min-width: 300px;
 }

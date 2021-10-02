@@ -1,7 +1,21 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Hello HomeController!{% endblock %}
-
-{% block body %}
-    {{ parent() }}
+{% block css %}
+    <link href="{{ asset('css/home.css') }}" rel="stylesheet" />
+{% endblock %}
+{% block container %}
+    <div class="list">
+        {% for trick in tricks %}
+            <div class="trick-in-list">
+                {% if trick.images is not empty %}
+                    <img src="{{asset('image/trick/' ~ trick.images[0])}}">
+                {% else %}
+                    <img src="{{asset('image/default.png')}}">
+                {% endif %}
+                <h5 class="text-overflow h5-resize">{{ trick.title }}</h5>
+                <a href="{{ path('trick_edit', {'id': trick.id}) }}">Modifier</a>
+                 {{ include('trick/_delete_form.html.twig') }}
+            </div>
+        {% endfor %}
+        <div class="clear"></div>
+    </div>
 {% endblock %}
