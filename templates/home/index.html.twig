@@ -14,28 +14,34 @@
                 </div>
             </div>
         </div> #}
+        <button id="button_display">Voir Tricks</button>
     </header>
 {% endblock %}
 
 {% block container %}
-    <div class="list">
-        {% for trick in tricks %}
-            <div class="trick-in-list">
-                {% if trick.images is not empty %}
-                    <img src="{{asset('image/trick/' ~ trick.images[0])}}">
-                {% else %}
-                    <img src="{{asset('image/default.png')}}">
-                {% endif %}
-                <h5 class="text-overflow h5-resize">{{ trick.title }}</h5>
-                
-                <li class="link-trick-inline">
-                    {{ include('trick/_edit_link.html.twig') }}
-                </li>
-                <li class="link-trick-inline">
-                    {{ include('trick/_delete_form.html.twig') }}
-                </li>
-            </div>
-        {% endfor %}
-        <div class="clear"></div>
+    <div id="container-list">
+        <div id="list">
+            {% for trick in tricks %}
+                <div class="trick-in-list">
+                    {% if trick.images is not empty %}
+                        <img src="{{asset('image/trick/' ~ trick.images[0])}}">
+                    {% else %}
+                        <img src="{{asset('image/default.png')}}">
+                    {% endif %}
+                    <h5 class="text-overflow h5-resize">{{ trick.title }}</h5>
+                    <li class="link-trick-inline">
+                        {{ include('trick/_edit_link.html.twig') }}
+                    </li>
+                    <li class="link-trick-inline">
+                        {{ include('trick/_delete_form.html.twig') }}
+                    </li>
+                </div>
+            {% endfor %}
+            <div class="clear"></div>
+        <button id="button_hide">Cacher Tricks</button>
+        </div>
     </div>
+{% endblock %}
+{% block script %}
+    <script src="{{ asset('js/display_tricks.js') }}"></script>
 {% endblock %}
