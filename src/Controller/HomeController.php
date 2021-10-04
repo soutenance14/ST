@@ -16,6 +16,7 @@ class HomeController extends CustomController
         return $this->render('home/index.html.twig', [
             'title' => 'Accueil',
             'tricks' => $trickRepository->findDesc(),
+            // 'tricks' => null,
             'thumbnail_default' => 'test thumbnail'
         ]);
     }

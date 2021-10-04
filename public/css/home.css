@@ -1,8 +1,25 @@
+header.mastheadHome {
+  position: relative;
+  padding-bottom: 50%;
+  background: no-repeat center center;
+  background-color: #6c757d;
+  background-size: cover;
+  background-attachment: scroll;
+}
+header.mastheadHome:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #212529;
+  opacity: 0.5;
+}
 .list {
-  /* padding: 5px; */
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   justify-content: center;
 }
 .trick-in-list {
@@ -34,9 +51,6 @@
     font-size: 0.8em;
   }
 }
-/* @media screen and (min-width: 470px) {
-  
-} */
 @media screen and (min-width: 600px) {
   .trick-in-list {
     background-color: #b5dee7;
@@ -46,9 +60,6 @@
   .h5-resize {
     font-size: 1em;
   }
-  /* .link-trick-inline .btn .fa-stack {
-    font-size: 1em;
-  } */
 }
 @media screen and (min-width: 800px) {
   .h5-resize {
