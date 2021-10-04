@@ -12,8 +12,13 @@
                     <img src="{{asset('image/default.png')}}">
                 {% endif %}
                 <h5 class="text-overflow h5-resize">{{ trick.title }}</h5>
-                <a href="{{ path('trick_edit', {'id': trick.id}) }}">Modifier</a>
-                 {{ include('trick/_delete_form.html.twig') }}
+                
+                <li class="link-trick-inline">
+                    {{ include('trick/_edit_link.html.twig') }}
+                </li>
+                <li class="link-trick-inline">
+                    {{ include('trick/_delete_form.html.twig') }}
+                </li>
             </div>
         {% endfor %}
         <div class="clear"></div>

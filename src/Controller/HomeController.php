@@ -13,21 +13,10 @@ class HomeController extends CustomController
      */
     public function index(TrickRepository $trickRepository): Response
     {
-        $tricks = $trickRepository->findAll();
         return $this->render('home/index.html.twig', [
             'title' => 'Accueil',
-            'tricks' => $trickRepository->findAll(),
+            'tricks' => $trickRepository->findDesc(),
             'thumbnail_default' => 'test thumbnail'
         ]);
     }
-
-    // /**
-    //  * @Route("/", name="home")
-    //  */
-    // public function index(): Response
-    // {
-    //     return $this->render('home/index.html.twig', [
-    //         'controller_name' => 'HomeController',
-    //     ]);
-    // }
 }

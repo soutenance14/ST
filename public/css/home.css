@@ -1,14 +1,15 @@
 .list {
-  padding: 5px;
+  /* padding: 5px; */
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
 }
 .trick-in-list {
-  background-color: #007189;
+  background-color: #b5dee7;
   margin: 5px;
-  max-width: 35%;
+  padding: 5px;
+  max-width: 100%;
 }
 .trick-in-list img {
   max-width: 100%;
@@ -21,19 +22,37 @@
 .h5-resize {
   font-size: 0.6em;
 }
+.link-trick-inline .btn .fa-stack {
+  font-size: 1em;
+}
+.link-trick-inline {
+  max-width: 40%;
+  display: inline-block;
+}
 @media screen and (min-width: 400px) {
   .h5-resize {
     font-size: 0.8em;
   }
 }
+/* @media screen and (min-width: 470px) {
+  
+} */
 @media screen and (min-width: 600px) {
+  .trick-in-list {
+    background-color: #b5dee7;
+    margin: 10px;
+    max-width: 25%;
+  }
   .h5-resize {
     font-size: 1em;
   }
+  /* .link-trick-inline .btn .fa-stack {
+    font-size: 1em;
+  } */
 }
 @media screen and (min-width: 800px) {
-.h5-resize {
-  font-size: 1.2em;
+  .h5-resize {
+    font-size: 1.2em;
   }
 }
 @media screen and (min-width: 1000px) {
@@ -44,6 +63,9 @@
 @media screen and (min-width: 1200px) {
   .h5-resize {
     font-size: 1.4em;
+  }
+  .link-trick-inline .btn .fa-stack {
+    font-size: 1.2em;
   }
 }
 
