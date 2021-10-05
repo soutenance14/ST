@@ -1,6 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Trick{% endblock %}
+{% block header %}
+    <header class="masthead" style="background-image: url('{{ asset('image/' ~ headerImage ~ '.jpg') }}')">
+        <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+            <div class="d-flex justify-content-center">
+                <div class="text-center">
+                    <h1 class="mx-auto my-0 text-uppercase">{{title}}</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock %}
 
 {% block container %}
     <a href="{{ path('trick_index') }}">back to list</a>
@@ -65,8 +75,11 @@
     <br>
 
     <h3>Comment</h3> 
-    
+    <div id="comments-part">
+    </div>
     <button type="button" id="load_more">Load More</button>
+    <div id="error-comment">
+    </div>
     <br>
     <a href="{{ path('trick_index') }}">back to list</a>
 

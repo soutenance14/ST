@@ -8,14 +8,14 @@ const addComment = (data) =>{
     console.log(obj);
     if(obj.status === "noComment")
     {
-      // TODO replace by innerHTML in message noComment (create the div in twig)
-      alert("Pas de commentaires supplémentaires trouvés."); 
+      document.querySelector("#error-comment").innerHTML = "Pas de commentaires (supplémentaires) trouvés.";
+      document
+      .querySelector("#load_more").disabled = true;
     }
     else if(obj.status === "error")
     {
-      // TODO replace by innerHTML in message error (create the div in twig)
-      message = "Une erreur innatendue est survenue:"+ obj.code + " " + obj.message;
-      alert(message);
+      document.querySelector("#error-comment")
+      .innerHTML = "Une erreur innatendue est survenue:"+ obj.code + " " + obj.message;
     }
     else if(obj.status === "success")
     {
@@ -38,7 +38,7 @@ const addComment = (data) =>{
         componentComments.appendChild(oneComponent);
       });
       componentComments.setAttribute("class","comment");
-      document.querySelector("body").appendChild(componentComments);
+      document.querySelector("#comments-part").appendChild(componentComments);
     }
   }
   catch(e)
