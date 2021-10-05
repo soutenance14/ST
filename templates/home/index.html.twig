@@ -4,23 +4,21 @@
 {% endblock %}
 
 {% block header %}
-    <header class="mastheadHome" style="background-image: url('{{ asset('image/' ~ headerImage ~ '.jpg') }}')">
-        {# <div class="container position-relative px-4 px-lg-5">
-            <div class="row gx-4 gx-lg-5 justify-content-center">
-                <div class="col-md-10 col-lg-8 col-xl-7">
-                    <div class="site-heading">
-                        <h1 class="subheading break-word">{{title}}</h1>
-                    </div>
+    <header class="masthead" style="background-image: url('{{ asset('image/' ~ headerImage ~ '.jpg') }}')">
+        <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+            <div class="d-flex justify-content-center">
+                <div class="text-center">
+                    <h1 class="mx-auto my-0 text-uppercase">{{title}}</h1>
+                    <a class="btn btn-primary" id="button_display" href="#">Voir Tricks</a>
                 </div>
             </div>
-        </div> #}
-        <button id="button_display">Voir Tricks</button>
+        </div>
     </header>
 {% endblock %}
 
 {% block container %}
     <div id="container-list">
-        <div id="list">
+        <div id="list-tricks">
             {% for trick in tricks %}
                 <div class="trick-in-list">
                     {% if trick.images is not empty %}
@@ -38,8 +36,8 @@
                 </div>
             {% endfor %}
             <div class="clear"></div>
-        <button id="button_hide">Cacher Tricks</button>
         </div>
+        <a class="btn btn-primary" id="button_hide" href="#">Cacher Tricks</a>
     </div>
 {% endblock %}
 {% block script %}
