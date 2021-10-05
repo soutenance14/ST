@@ -26,18 +26,22 @@ const addComment = (data) =>{
         contenu = document.createElement("div");
         // createdAt = document.createElement("div");
         
-        user.innerHTML = comment.email;
+        user.innerHTML = "Par " + comment.email;
         
         contenu.innerHTML = comment.contenu;
         // createdAt.innerHTML = comment.createdAt;
         
-        oneComponent.appendChild(user);
         oneComponent.appendChild(contenu);
+        oneComponent.appendChild(user);
         // oneComponent.appendChild(createdAt);
+        user.setAttribute("class", "user-comment");
+        contenu.setAttribute("class", "content-comment");
 
+        oneComponent.setAttribute("class", "component-comment");
         componentComments.appendChild(oneComponent);
+
       });
-      componentComments.setAttribute("class","comment");
+      componentComments.setAttribute("class","comments");
       document.querySelector("#comments-part").appendChild(componentComments);
     }
   }

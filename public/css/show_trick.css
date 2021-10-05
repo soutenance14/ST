@@ -1,0 +1,12 @@
+#tricks-media {
+  margin-top: 40px;
+}
+.trick-media {
+  float: left;
+  margin: 10px;
+}
+.info-trick {
+  background-color: rgb(231, 219, 219);
+  margin-right: 5px;
+  padding: 5px;
+}

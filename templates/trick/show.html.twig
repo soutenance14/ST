@@ -1,7 +1,15 @@
 {% extends 'base.html.twig' %}
-
+{% block css %}
+    <link href="{{ asset('css/show_trick.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/comment.css') }}" rel="stylesheet" />
+{% endblock %}
 {% block header %}
-    <header class="masthead" style="background-image: url('{{ asset('image/' ~ headerImage ~ '.jpg') }}')">
+    {% if trick.images is empty %}
+        {% set headerImage = "home.jpg" %}
+    {% else %}
+        {% set headerImage = "trick/" ~ trick.images[0].name %}
+    {% endif %}
+    <header class="masthead" style="background-image: url('{{ asset('image/' ~ headerImage) }}')">
         <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
             <div class="d-flex justify-content-center">
                 <div class="text-center">
@@ -13,71 +21,47 @@
 {% endblock %}
 
 {% block container %}
-    <a href="{{ path('trick_index') }}">back to list</a>
-    <h1>Trick</h1>
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ trick.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ trick.title }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ trick.content }}</td>
-            </tr>
-            <tr>
-                <th>Slug</th>
-                <td>{{ trick.slug }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ trick.createdAt ? trick.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ trick.updatedAt ? trick.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <hr>
-    <h3>Images</h3>
-    <div>
+    <div id="tricks-media">
         {% for image in trick.images %}
-            <div>
-                <h6>{{ image.name }}</h6>
-                
+            <div class="trick-media">
                 <img style="width:200px; height:200px" 
                 src="{{ asset('image/trick/'~image.name) }}">
             </div>           
         {% endfor %}
-    </div>
-    <br>
-    
-    <hr>
-    <h3>Videos</h3>
-    <div>
         {% for video in trick.videos %}
-            <div>
-                <h6>{{ video.url }}</h6>
-                <iframe width="731" height="411" src="{{ video.url }}" 
+            <div class="trick-media">
+                <iframe width="200" height="200" src="{{ video.url }}" 
                     title="YouTube video player" frameborder="0" 
                     allow="accelerometer; autoplay; clipboard-write;
                     encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
                 </iframe>
             </div>           
         {% endfor %}
+        <div class="clear"></div>
     </div>
     <br>
 
+    <p id="content">
+        {{ trick.content }}     
+    </p>     
+    <h5 class="list-inline-item info-trick">
+        Crée le
+        {{ trick.createdAt ? trick.createdAt|date('d/m/Y') : '' }}
+        à {{ trick.createdAt ? trick.createdAt|date('H:i') : '' }}
+    </h5>
+    {% if trick.updatedAt is not null %}
+        <h5 class="list-inline-item info-trick">
+            Dernière modification le
+            {{ trick.updatedAt ? trick.updatedAt|date('d/m/Y') : '' }}
+            à {{ trick.updatedAt ? trick.updatedAt|date('H:i') : '' }}
+        </h5>
+    {% endif %}
+      
+    <br>
     <h3>Comment</h3> 
     <div id="comments-part">
     </div>
-    <button type="button" id="load_more">Load More</button>
+    <button id="load_more" class="btn btn-primary">Load More</button>
     <div id="error-comment">
     </div>
     <br>
