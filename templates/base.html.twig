@@ -6,7 +6,7 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>{{title}}</title>
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="{{asset('image/favicon.ico')}}" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
@@ -22,12 +22,12 @@
     <body>
         <!-- Navigation-->
         {% block nav %}
-                {% if user is not null and 'ROLE_SUBSCRIBER' in user.roles %}
-                    {% include 'menu/menuAuth.twig' %}
-                {% else %}                  
-                    {% include 'menu/menuBase.twig' %}
-                {% endif %}
-            {% endblock %}
+            {% if user is not null and 'ROLE_SUBSCRIBER' in user.roles %}
+                {% include 'menu/menuAuth.twig' %}
+            {% else %}                  
+                {% include 'menu/menuBase.twig' %}
+            {% endif %}
+        {% endblock %}
         <!-- Page Header-->
         {% block header %}
             <header class="masthead" style="background-image: url('{{ asset('image/' ~ headerImage ~ '.jpg') }}')">
@@ -44,10 +44,10 @@
         {% endblock %}
         <!-- Main Content-->
         
-            <div class="container px-4 px-lg-5" style="min-height:350px">
-                {% block container %}
-                {% endblock %}
-            </div>
+        <div class="container px-4 px-lg-5">
+            {% block container %}
+            {% endblock %}
+        </div>
             
         <!-- Footer-->
         <footer class="border-top">

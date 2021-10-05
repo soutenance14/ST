@@ -1,7 +1,47 @@
 {% extends 'base.html.twig' %}
+{% block css %}
+    <link href="{{ asset('css/home.css') }}" rel="stylesheet" />
+{% endblock %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block header %}
+    <header class="mastheadHome" style="background-image: url('{{ asset('image/' ~ headerImage ~ '.jpg') }}')">
+        {# <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1 class="subheading break-word">{{title}}</h1>
+                    </div>
+                </div>
+            </div>
+        </div> #}
+        <button id="button_display">Voir Tricks</button>
+    </header>
+{% endblock %}
 
-{% block body %}
-    {{ parent() }}
+{% block container %}
+    <div id="container-list">
+        <div id="list">
+            {% for trick in tricks %}
+                <div class="trick-in-list">
+                    {% if trick.images is not empty %}
+                        <img src="{{asset('image/trick/' ~ trick.images[0])}}">
+                    {% else %}
+                        <img src="{{asset('image/default.png')}}">
+                    {% endif %}
+                    <h5 class="text-overflow h5-resize">{{ trick.title }}</h5>
+                    <li class="link-trick-inline">
+                        {{ include('trick/_edit_link.html.twig') }}
+                    </li>
+                    <li class="link-trick-inline">
+                        {{ include('trick/_delete_form.html.twig') }}
+                    </li>
+                </div>
+            {% endfor %}
+            <div class="clear"></div>
+        <button id="button_hide">Cacher Tricks</button>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+    <script src="{{ asset('js/display_tricks.js') }}"></script>
 {% endblock %}
