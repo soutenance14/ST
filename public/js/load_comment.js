@@ -7,7 +7,7 @@ const addComment = (data) =>{
   {
     const componentComments = document.createElement("div");
     obj = JSON.parse(data);
-    console.log(obj);
+    load_more.disabled = false;
     if(obj.status === "noComment")
     {
       document.querySelector("#error-comment").innerHTML = "Pas de commentaires (supplémentaires) trouvés.";
@@ -22,25 +22,37 @@ const addComment = (data) =>{
     {
       comments = JSON.parse(obj.data);
       comments.forEach(comment => {
+        // all view component
         oneComponent = document.createElement("div");
-        user = document.createElement("div");
-        contenu = document.createElement("div");
-        // createdAt = document.createElement("div");
-        
-        user.innerHTML = "Par " + comment.email;
-        
+        userAndCreatedAt = document.createElement("h6");
+        contenu = document.createElement("p");
+        //content part
         contenu.innerHTML = comment.contenu;
-        // createdAt.innerHTML = comment.createdAt;
-        
+        //get formatted date in localeString for createdAt comment
+        date = new Date(comment.createdAt.timestamp * 1000);//use millisecondes
+        localeDate = date.toLocaleString("fr-FR", 
+        {
+          day: "numeric",
+          month: "numeric",
+          year: "numeric",
+          hour: "numeric",
+          minute: "numeric"
+        });
+        // Concat username + formatted date
+        userAndCreatedAt.innerHTML = "Par " + comment.username 
+        + " le " + localeDate;
+
+        // add all caracteriistics component
+        // to global oneComponent
         oneComponent.appendChild(contenu);
-        oneComponent.appendChild(user);
-        // oneComponent.appendChild(createdAt);
-        user.setAttribute("class", "user-comment");
+        oneComponent.appendChild(userAndCreatedAt);
+        // give class for good style
+        userAndCreatedAt.setAttribute("class", "user-comment");
         contenu.setAttribute("class", "content-comment");
-
         oneComponent.setAttribute("class", "component-comment");
+        // add global oneComponent to
+        // all componentComments
         componentComments.appendChild(oneComponent);
-
       });
       componentComments.setAttribute("class","comments");
       document.querySelector("#comments-part").appendChild(componentComments);
@@ -103,11 +115,10 @@ function sendTo( url)
   // Finalement, envoyez les données.
   XHR.onreadystatechange = function() 
   {
+    loading_gif.style.display = "none";
     if(XHR.readyState === 4 && XHR.status === 200) {
       addComment(XHR.responseText);
     }
-    loading_gif.style.display = "none";
-    load_more.disabled = false;
   }
   XHR.send(url);
 }

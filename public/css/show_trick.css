@@ -1,5 +1,5 @@
 #tricks-media {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 .trick-media {
   float: left;
@@ -15,4 +15,7 @@
 }
 #error-comment {
   margin-bottom: 40px;
+}
+#info {
+  margin-top: 40px;
 }

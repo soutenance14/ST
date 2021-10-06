@@ -23,7 +23,7 @@ class CommentRepository extends ServiceEntityRepository
     public function findComments($trickId, $offset, $limit)
     {
         return $this->createQueryBuilder('c')
-            ->select('c.contenu, c.createdAt, u.email')
+            ->select('c.contenu, c.createdAt, u.username')
             ->innerJoin('App\Entity\user', 'u', Join::WITH, 'u = c.user')
             ->innerJoin('App\Entity\trick', 't', Join::WITH, 't = c.trick')
             ->andWhere('t.id = :val')

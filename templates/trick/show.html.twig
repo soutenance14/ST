@@ -31,6 +31,21 @@
 {% endblock %}
 
 {% block container %}
+    <div id="info">
+        <h5 class="list-inline-item btn btn-secondary info-trick">
+        Catégorie: 
+            {{ trick.category }}
+        </h5>
+        <h5 class="list-inline-item btn btn-secondary info-trick">
+        Auteur: 
+            {{ trick.user }}
+        </h5>
+        <h5 class="list-inline-item btn btn-secondary info-trick">
+            Crée le
+            {{ trick.createdAt ? trick.createdAt|date('d/m/Y') : '' }}
+            {# à {{ trick.createdAt ? trick.createdAt|date('H:i') : '' }} #}
+        </h5>
+    </div>
     <div id="tricks-media">
         {% for image in trick.images %}
             <div class="trick-media">
@@ -49,24 +64,10 @@
         {% endfor %}
         <div class="clear"></div>
     </div>
-    <br>
     <p id="content">
         {{ trick.content }}     
     </p>     
-    <hr>
-    <h5 class="list-inline-item btn btn-secondary info-trick">
-       Catégorie: 
-        {{ trick.category }}
-    </h5>
-    <h5 class="list-inline-item btn btn-secondary info-trick">
-       Auteur: 
-        {{ trick.user }}
-    </h5>
-    <h5 class="list-inline-item btn btn-secondary info-trick">
-        Crée le
-        {{ trick.createdAt ? trick.createdAt|date('d/m/Y') : '' }}
-        {# à {{ trick.createdAt ? trick.createdAt|date('H:i') : '' }} #}
-    </h5>
+    
     {% if trick.updatedAt is not null %}
         <h5 class="list-inline-item btn btn-secondary info-trick">
             Dernière modification le
