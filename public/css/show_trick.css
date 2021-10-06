@@ -6,7 +6,13 @@
   margin: 10px;
 }
 .info-trick {
-  background-color: rgb(231, 219, 219);
   margin-right: 5px;
   padding: 5px;
+}
+.link-trick-inline {
+  max-width: 40%;
+  display: inline-block;
+}
+#error-comment {
+  margin-bottom: 40px;
 }

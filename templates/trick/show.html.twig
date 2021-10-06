@@ -13,6 +13,16 @@
         <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
             <div class="d-flex justify-content-center">
                 <div class="text-center">
+                    {% if user is not null and user.id == trick.user.id %}
+                        <div id="button-user">
+                            <li class="link-trick-inline">
+                                {{ include('trick/_edit_link.html.twig') }}
+                            </li>
+                            <li class="link-trick-inline">
+                                {{ include('trick/_delete_form.html.twig') }}
+                            </li>
+                        </div>
+                    {% endif %}
                     <h1 class="mx-auto my-0 text-uppercase">{{title}}</h1>
                 </div>
             </div>
@@ -44,32 +54,32 @@
         {{ trick.content }}     
     </p>     
     <hr>
-    <h5 class="list-inline-item info-trick">
+    <h5 class="list-inline-item btn btn-secondary info-trick">
+       Catégorie: 
+        {{ trick.category }}
+    </h5>
+    <h5 class="list-inline-item btn btn-secondary info-trick">
+       Auteur: 
+        {{ trick.user }}
+    </h5>
+    <h5 class="list-inline-item btn btn-secondary info-trick">
         Crée le
         {{ trick.createdAt ? trick.createdAt|date('d/m/Y') : '' }}
-        à {{ trick.createdAt ? trick.createdAt|date('H:i') : '' }}
+        {# à {{ trick.createdAt ? trick.createdAt|date('H:i') : '' }} #}
     </h5>
     {% if trick.updatedAt is not null %}
-        <h5 class="list-inline-item info-trick">
+        <h5 class="list-inline-item btn btn-secondary info-trick">
             Dernière modification le
             {{ trick.updatedAt ? trick.updatedAt|date('d/m/Y') : '' }}
-            à {{ trick.updatedAt ? trick.updatedAt|date('H:i') : '' }}
+            {# à {{ trick.updatedAt ? trick.updatedAt|date('H:i') : '' }} #}
         </h5>
     {% endif %}
-      
-    <br>
-    <h3>Comment</h3> 
+    <hr>
+    <h3>Commentaire</h3> 
     <div id="comments-part">
     </div>
     <button id="load_more" class="btn btn-primary">Load More</button>
-    <div id="error-comment">
-    </div>
-    <br>
-    <a href="{{ path('trick_index') }}">back to list</a>
-
-    <a href="{{ path('trick_edit', {'id': trick.id}) }}">edit</a>
-
-    {{ include('trick/_delete_form.html.twig') }}
+    <div id="error-comment"></div>
 {% endblock %}
 
 {% block script %}
