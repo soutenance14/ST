@@ -18,6 +18,7 @@ class TrickEditType extends AbstractType
     {
         $builder
             ->add('title')
+            ->add('category')
             ->add('content')
             //edit existing images
             ->add("images", CollectionType::class,[

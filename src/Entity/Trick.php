@@ -66,6 +66,11 @@ class Trick
      */
     private $comments;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="tricks")
+     */
+    private $category;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -242,5 +247,17 @@ class Trick
     public function __toString()
     {
         return $this->title;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
     }
 }

@@ -1,0 +1,18 @@
+#tricks-media {
+  margin-top: 40px;
+}
+.trick-media {
+  float: left;
+  margin: 10px;
+}
+.info-trick {
+  margin-right: 5px;
+  padding: 5px;
+}
+.link-trick-inline {
+  max-width: 40%;
+  display: inline-block;
+}
+#error-comment {
+  margin-bottom: 40px;
+}

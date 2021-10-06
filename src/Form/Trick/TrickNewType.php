@@ -16,6 +16,7 @@ class TrickNewType extends AbstractType
     {
         $builder
             ->add('title')
+            ->add('category')
             ->add('content')
             ->add("images", FileType::class,[
                 "mapped" => false,

@@ -8,14 +8,14 @@ const addComment = (data) =>{
     console.log(obj);
     if(obj.status === "noComment")
     {
-      // TODO replace by innerHTML in message noComment (create the div in twig)
-      alert("Pas de commentaires supplémentaires trouvés."); 
+      document.querySelector("#error-comment").innerHTML = "Pas de commentaires (supplémentaires) trouvés.";
+      document
+      .querySelector("#load_more").disabled = true;
     }
     else if(obj.status === "error")
     {
-      // TODO replace by innerHTML in message error (create the div in twig)
-      message = "Une erreur innatendue est survenue:"+ obj.code + " " + obj.message;
-      alert(message);
+      document.querySelector("#error-comment")
+      .innerHTML = "Une erreur innatendue est survenue:"+ obj.code + " " + obj.message;
     }
     else if(obj.status === "success")
     {
@@ -26,19 +26,23 @@ const addComment = (data) =>{
         contenu = document.createElement("div");
         // createdAt = document.createElement("div");
         
-        user.innerHTML = comment.email;
+        user.innerHTML = "Par " + comment.email;
         
         contenu.innerHTML = comment.contenu;
         // createdAt.innerHTML = comment.createdAt;
         
-        oneComponent.appendChild(user);
         oneComponent.appendChild(contenu);
+        oneComponent.appendChild(user);
         // oneComponent.appendChild(createdAt);
+        user.setAttribute("class", "user-comment");
+        contenu.setAttribute("class", "content-comment");
 
+        oneComponent.setAttribute("class", "component-comment");
         componentComments.appendChild(oneComponent);
+
       });
-      componentComments.setAttribute("class","comment");
-      document.querySelector("body").appendChild(componentComments);
+      componentComments.setAttribute("class","comments");
+      document.querySelector("#comments-part").appendChild(componentComments);
     }
   }
   catch(e)

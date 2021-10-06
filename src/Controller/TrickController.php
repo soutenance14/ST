@@ -32,10 +32,11 @@ class TrickController extends CustomController
     }
 
      /**
-     * @Route("/{id}", name="trick_show", methods={"GET"})
+     * @Route("/{slug}", name="trick_show", methods={"GET"})
      */
-    public function show(Trick $trick): Response
+    public function show(TrickRepository $trickRepo, $slug): Response
     {
+        $trick = $trickRepo->findBySlugDesc($slug);
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
             'offsetComment' => 0,
