@@ -79,13 +79,15 @@
     <div id="comments-part">
     </div>
     <button id="load_more" class="btn btn-primary">Load More</button>
+    <img id="loading-gif" src="{{ asset('image/gif/loading.gif') }}">
     <div id="error-comment"></div>
 {% endblock %}
 
 {% block script %}
     {{ parent() }}
 <script>
-    const urlInit = "https://127.0.0.1:8000/comment/{{ trick.id }}"
+    const urlInit = 
+    "{{ app.request.getSchemeAndHttpHost()}}/comment/{{ trick.id }}"
     var offset = {{offsetComment}};
     const limit = {{limitComment}};
     const createUrl = (urlInit, offset, limit)=>{

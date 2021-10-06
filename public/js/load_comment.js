@@ -1,5 +1,7 @@
 
 //const & var
+const loading_gif = document.querySelector("#loading-gif");
+const load_more = document.querySelector("#load_more");
 const addComment = (data) =>{
   try
   {
@@ -9,8 +11,7 @@ const addComment = (data) =>{
     if(obj.status === "noComment")
     {
       document.querySelector("#error-comment").innerHTML = "Pas de commentaires (supplémentaires) trouvés.";
-      document
-      .querySelector("#load_more").disabled = true;
+      load_more.disabled = true;
     }
     else if(obj.status === "error")
     {
@@ -83,6 +84,9 @@ function checkAndSend(urlInit, offset, limit)
 } 
 function sendTo( url) 
 {
+  //display gif loading
+  loading_gif.style.display = "block";
+  load_more.disabled = true;
   var XHR = new XMLHttpRequest();
 
   // Définissez ce qui arrive en cas d"erreur
@@ -102,6 +106,8 @@ function sendTo( url)
     if(XHR.readyState === 4 && XHR.status === 200) {
       addComment(XHR.responseText);
     }
+    loading_gif.style.display = "none";
+    load_more.disabled = false;
   }
   XHR.send(url);
 }

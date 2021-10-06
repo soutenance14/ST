@@ -16,6 +16,9 @@
 .comments {
     padding-bottom: 40px;
 }
+#loading-gif {
+    display: none;
+}
 
 
 
