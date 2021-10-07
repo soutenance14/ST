@@ -1,7 +1,9 @@
+var index = 0;
 const addTagFormDeleteLink = (tagFormLi) => {
     const removeFormButton = document.createElement('button')
     removeFormButton.classList
-    removeFormButton.innerText = 'Delete this tag'
+    removeFormButton.innerText = 'Supprimer ce lien'
+    removeFormButton.setAttribute('class','btn-remove-video btn-secondary' )
 
     tagFormLi.append(removeFormButton);
 
@@ -22,12 +24,16 @@ const addFormToCollection = (e) => {
       .prototype
       .replace(
         /__name__/g,
-        collectionHolder.dataset.index
+        index
+        // collectionHolder.dataset.index
       );
-  
+        
+    item.style.listStyle = "none";
     collectionHolder.appendChild(item);
-  
-    collectionHolder.dataset.index++;
+    // item.setAttribute('class', 'form-control');
+    console.log(item);
+    index++;
+    // collectionHolder.dataset.index++;
 
      // add a delete link to the new form
      addTagFormDeleteLink(item);

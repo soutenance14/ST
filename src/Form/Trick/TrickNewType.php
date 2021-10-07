@@ -2,8 +2,10 @@
 
 namespace App\Form\Trick;
 
+use App\Entity\Category;
 use App\Entity\Trick;
 use App\Form\Video\VideoNewType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -16,7 +18,10 @@ class TrickNewType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('category')
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
+                'label' => 'Catégorie',
+            ])
             ->add('content')
             ->add("images", FileType::class,[
                 "mapped" => false,
@@ -29,6 +34,7 @@ class TrickNewType extends AbstractType
                 "required" => false,
                 'allow_add' => true,
                 'allow_delete' => true,
+                'label' => false,
             ])
         ;
     }

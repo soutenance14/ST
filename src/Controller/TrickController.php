@@ -32,7 +32,7 @@ class TrickController extends CustomController
     }
 
      /**
-     * @Route("/{slug}", name="trick_show", methods={"GET"})
+     * @Route("/page/{slug}", name="trick_show", methods={"GET"})
      */
     public function show(TrickRepository $trickRepo, $slug): Response
     {
@@ -122,6 +122,7 @@ class TrickController extends CustomController
             'error_message' => $error_message,
             'trick' => $trick,
             'form' => $form,
+            'title' => "Créer Trick",
         ]);
     }
 
