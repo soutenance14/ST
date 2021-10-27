@@ -17,6 +17,7 @@ class HomeController extends CustomController
             'title' => 'Accueil',
             'tricks' => $trickRepository->findDesc(),
             // 'tricks' => null,
+            'user' => $this->getUser(),
             'thumbnail_default' => 'test thumbnail'
         ]);
     }
