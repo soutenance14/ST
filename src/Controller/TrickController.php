@@ -9,9 +9,11 @@ use App\Form\Trick\TrickNewType;
 use App\Repository\TrickRepository;
 use DateTimeImmutable;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
@@ -131,6 +133,13 @@ class TrickController extends CustomController
      */
     public function edit(Request $request, Trick $trick): Response
     {
+        if($trick->getUser()->getId() !== $this->getUser()->getId())
+        {
+            return $this->renderForm('error/403.html.twig', [
+                'title' => 'Erreur 403',
+                'message' => 'Trick recherché: '.$trick->getTitle(),
+            ]);
+        }
         $error_message = false;
         $form = $this->createForm(TrickEditType::class, $trick);
         $form->handleRequest($request);
@@ -159,6 +168,7 @@ class TrickController extends CustomController
             try
             {  
                 // if slug not exists in db, trick can be save in db
+                // if exists, UniqueConstraintViolationException is generated
                 //first flush for trick
                 $entityManager->flush();
 
@@ -224,6 +234,7 @@ class TrickController extends CustomController
                 .$trick->getSlug()
                 ."), please change the name for your article";
             }
+            
         }
         return $this->renderForm('trick/edit.html.twig', [
             'error_message' => $error_message,
@@ -238,8 +249,14 @@ class TrickController extends CustomController
      */
     public function delete(Request $request, Trick $trick): Response
     {
-        if ($trick->getUser()->getId() === $this->getUser()->getId()
-                && $this->isCsrfTokenValid(
+        if($trick->getUser()->getId() !== $this->getUser()->getId())
+        {
+            return $this->renderForm('error/403.html.twig', [
+                'title' => 'Erreur 403',
+                'message' => 'Trick recherché: '.$trick->getTitle(),
+            ]);
+        }
+        if ($this->isCsrfTokenValid(
                     'delete'.$trick->getId(),
                      $request->request->get('_token'))
                     )
@@ -260,7 +277,8 @@ class TrickController extends CustomController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('trick_index', [], Response::HTTP_SEE_OTHER);
+        // return $this->redirectToRoute('trick_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
     }
     
     // private functions
