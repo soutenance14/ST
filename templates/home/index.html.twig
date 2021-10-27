@@ -30,12 +30,14 @@
                         href="{{ path('trick_show', {'slug': trick.slug}) }}">
                         <h5 style="margin-top: 10px" class="text-overflow h5-resize">{{ trick.title }}</h5>
                     </a>
-                    <li class="link-trick-inline">
-                        {{ include('trick/_edit_link.html.twig') }}
-                    </li>
-                    <li class="link-trick-inline">
-                        {{ include('trick/_delete_form.html.twig') }}
-                    </li>
+                     {% if user is not null and trick.user.id == user.id %}
+                        <li class="link-trick-inline">
+                            {{ include('trick/_edit_link.html.twig') }}
+                        </li>
+                        <li class="link-trick-inline">
+                            {{ include('trick/_delete_form.html.twig') }}
+                        </li>
+                     {% endif %}
                 </div>
             {% endfor %}
             <div class="clear"></div>
