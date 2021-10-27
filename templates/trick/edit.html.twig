@@ -1,88 +1,98 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Edit Trick{% endblock %}
+{% block css %}
+    <link href="{{ asset('css/widget_form.css') }}" rel="stylesheet" />
+{% endblock %}
 
-{% block body %}
-    <a href="{{ path('trick_index') }}">back to list</a>
-    <h1>Edit Trick</h1>
-
+{% block container %}
     {{ form_start(form) }}
-        <h1>Valeurs</h1>
-        <div>
-            {{ form_label(form.title) }}
-            {{ form_errors(form.title) }}
-            {{ form_widget(form.title) }}
-        </div>
-        <div>
-            {{ form_label(form.content) }}
-            {{ form_errors(form.content) }}
-            {{ form_widget(form.content) }}
-        </div>
-        <hr>
-
-        {{ form_label(form.images) }}
-        {{ form_errors(form.images) }}
-        <ul>
-            <h5>Existing Images</h5>
+    <div class="margin-bottom">
+       <h3>{{ form_label(form.category, 'Catégorie') }}</h3>
+        {{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="margin-bottom">
+        <h3>{{ form_label(form.title, 'Titre') }}</h3>
+        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <div class="margin-bottom">
+        <h3>{{ form_label(form.content, 'Description') }}</h3>
+        {{ form_widget(form.content, {'attr': {
+            'class': 'form-control',
+            'rows': '7'
+            }
+        }) }}
+    </div>
+    <div class="margin-bottom image-part">
+        <h3>{{ form_label(form.images, 'Images existantes') }}</h3>
+        {% if form.images|length > 0 %}
             {% for imageForm in form.images %}
-            
-                <div style="background: rgb(220, 220, 240); 
-                padding: 5px; margin-bottom:5px; padding-left: 25%; padding-right: 25%;"> 
+                <div class="form-control inline-block margin-bottom"> 
                     {{ form_errors(imageForm) }}
-                    {# {{ form_label(imageForm.name) }} #}
                     <h6>{{imageForm.name.vars.value}}</h6>
-                    {{ form_label(imageForm.delete) }}
-                    {{ form_widget(imageForm.delete) }}
-                    
-                    {# hidden field but necessary for getting name
-                    if the widget is not adding here, twig will add
-                    it but with a bad display
-                    #}
-                    {{ form_widget(imageForm.name) }}
-                    {# hidden field #}
-                    <hr>
-                    <img style="width:50px; height:50px" src="{{ asset('image/trick/'~imageForm.name.vars.value) }}">
+                    <img class="image-existing inline-block" src="{{ asset('image/trick/'~imageForm.name.vars.value) }}">
+                    <div class="inline-block">
+                        {{ form_widget(imageForm.name) }}
+                        {{ form_label(imageForm.delete, "Supprimer") }}
+                        {{ form_widget(imageForm.delete) }}
+                    </div>
                 </div>  
             {% endfor %}
-       </ul>
-        <div>
-            {{ form_label(form.new_images) }}
-            {{ form_errors(form.new_images) }}
-            {{ form_widget(form.new_images) }}
-        </div>
-        <hr>
-        {{ form_label(form.videos) }}
-        {{ form_errors(form.videos) }}
-        <ul>
-            <h5>Existing videos</h5>
+        {% else %}
+            {# form_widget(form.images) is necessary for not display the label Images #}
+            {{ form_widget(form.images) }}
+            <h4> Il n' y a pas d'images sauvegardées pour ce trick</h4>
+        {% endif %}
+    </div>
+    <hr>
+    <div class="margin-bottom image-part">
+        <h3>{{ form_label(form.new_images, 'Nouvelles images') }}</h3>
+        {# form_widget(form.new_images is necessary for not display the label New Images #}
+        {{ form_widget(form.new_images, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    <hr>
+    <div class="margin-bottom video-part">
+        <h3>{{ form_label(form.videos, 'Videos existantes') }}</h3>
+        {% if form.videos|length > 0 %}
             {% for videoForm in form.videos %}
-            
-                <div style="background: rgb(220, 180, 180); 
-                padding: 5px; margin-bottom:5px; padding-left: 25%; padding-right: 25%;"> 
-                    {{ form_errors(videoForm) }}
-                    {# {{ form_label(videoForm.url) }} #}
-                    <h6>{{videoForm.url.vars.value}}</h6>
-                    {{ form_label(videoForm.delete) }}
-                    {{ form_widget(videoForm.delete) }}
-                    <hr>
-                    {{ form_label(videoForm.url) }}
-                    {{ form_widget(videoForm.url) }}
+                <div class="form-control inline-block margin-bottom"> 
+                    <h6>
+                        {{ form_widget(videoForm.url, {'attr': {'class': 'video-url-existing form-control'}}) }}
+                    </h6>
+                    <div class="inline-block">
+                        <iframe width="200" height="200" src="{{ videoForm.url.vars.value }}" 
+                            title="YouTube video player" frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write;
+                            encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                        </iframe>
+                    </div>  
+                    <div class="inline-block">
+                        {{ form_label(videoForm.delete, "Supprimer") }}
+                        {{ form_widget(videoForm.delete ) }}
+                    </div>
                 </div> 
             {% endfor %}
-        </ul>
-
-        <h3>New Videos</h3>
-        <ul class="videos" data-prototype="{{ form_widget(form.new_videos.vars.prototype)|e('html_attr') }}"></ul>
-            <button type="button" class="add_item_link" data-collection-holder-class="videos">Add a video</button>
+        {% else %}
+            {# form_widget(form.videos) is necessary for not display the label Videos #}
+             {{ form_widget(form.videos) }}
+            <h4> Il n' y a pas de vidéos sauvegardées pour ce trick</h4>
+        {% endif %}
+    </div>
+    <hr>
+    <div class="margin-bottom video-part">
+        <h3>{{ form_label(form.new_videos, 'Nouvelles videos') }}</h3>
+        <ul class="videos" data-prototype="{{ form_widget(form.new_videos.vars.prototype, 
+            {'attr': {'class': 'video-url-add'}})|e('html_attr') }}"></ul>
+            <button type="button" class="add_item_link form-control" data-collection-holder-class="videos">Ajouter vidéo</button>
             {% for video in form.new_videos %}
-                <li>{{ form_row(video.url) }}</li>
+                <li>{{ form_widget(video.url) }}</li>
             {% endfor %}
+            {# form_widget(form.new_videos) is necessary for not display the label New Videos #}
+            {{ form_widget(form.new_videos) }}
         </ul>
-        <button class="btn">{{ button_label|default('Update') }}</button>
+    </div>
+    <button class="btn btn-primary">{{ button_label|default('Sauvegarder') }}</button>
     {{ form_end(form) }}
-
-    <a href="{{ path('trick_index') }}">back to list</a>
-
     {{ include('trick/_delete_form.html.twig') }}
 {% endblock %}
 

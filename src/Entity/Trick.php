@@ -246,6 +246,14 @@ class Trick
 
     public function __toString()
     {
+        if($this->title === null)
+        {
+            // this is need cause the controller
+            // add something in aray parameter
+            // for twig, the trick is in parameter
+            // and the trick __toString cant be null
+            return "Trick is null";
+        }
         return $this->title;
     }
 

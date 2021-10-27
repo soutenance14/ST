@@ -1,35 +1,49 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}New Trick{% endblock %}
+{% block css %}
+    <link href="{{ asset('css/widget_form.css') }}" rel="stylesheet" />
+{% endblock %}
 
-{% block body %}
-    <h1>Create new Trick</h1>
+{% block container %}
+    <div class="form-trick">
+        {{ form_start(form) }}
 
-    {# {{ include('trick/_form.html.twig') }} #}
+        <h5>{{ form_label(form.category, 'Catégorie') }}</h5>
+        {{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}
 
-    {{ form_start(form) }}
-    {{ form_row(form.title) }}
-    {{ form_row(form.content) }}
-    {{ form_row(form.images) }}
-   
+        <h5>{{ form_label(form.title, 'Titre') }}</h5>
+        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
 
-        <h3>Videos</h3>
-        <ul class="videos" data-prototype="{{ form_widget(form.videos.vars.prototype)|e('html_attr') }}"></ul>
-            <button type="button" class="add_item_link" data-collection-holder-class="videos">Add a video</button>
+        <h5>{{ form_label(form.content, 'Description') }}</h5>
+        {{ form_widget(form.content, {'attr': {
+            'class': 'form-control',
+            'rows': '7'
+            }
+        }) }}
+
+        <h5>{{ form_label(form.images) }}</h5>
+        {{ form_widget(form.images, {'attr': {'class': 'form-control'}}) }}
+    
+        <h5>Videos</h5>
+        
+        <ul class="videos" data-prototype="{{ form_widget(form.videos.vars.prototype, 
+            {'attr': {'class': 'video-url-widget'}})|e('html_attr') }}"></ul>
+            <button type="button" class="add_item_link form-control" data-collection-holder-class="videos">Ajouter vidéo</button>
             {% for video in form.videos %}
-                <li>{{ form_row(video.url) }}</li>
+                <li>{{ form_widget(video.url) }}</li>
             {% endfor %}
         </ul>
+        <br>
+        <button class="btn btn-primary">{{ button_label|default('Créer') }}</button>
+        {{ form_end(form) }}
 
-        <button class="btn">{{ button_label|default('Save') }}</button>
-    {{ form_end(form) }}
-
-    {% if error_message != false %}
-        <div class="alert alert-danger">
-            {{ error_message }}
-        </div>
-    {% endif %}
-    <a href="{{ path('trick_index') }}">back to list</a>
+        {% if error_message != false %}
+            <div class="alert alert-danger">
+                {{ error_message }}
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}
 {% block script %}
     {{ parent() }}

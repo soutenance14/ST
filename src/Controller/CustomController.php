@@ -17,13 +17,15 @@ abstract class CustomController extends AbstractController
         }
         return parent::render($view, $parameters, $response);
     }
-    // /**
-    //  * @Route("/custom", name="custom")
-    //  */
-    // public function index(): Response
-    // {
-    //     return $this->render('custom/index.html.twig', [
-    //         'controller_name' => 'CustomController',
-    //     ]);
-    // }
+    
+    public function renderForm(string $view, array $parameters = [], Response $response = null): Response
+    {
+        $parameters["user"] = $this->getUser();
+        if(!in_array("headerImage", $parameters))
+        {
+            $parameters["headerImage"] = "home";
+        }
+        return parent::renderForm($view, $parameters, $response);
+    }
+
 }
