@@ -55,6 +55,7 @@ class UserController extends CustomController
 
         return $this->renderForm('user/edit_password.html.twig', [
             'user' => $user,
+            'title' => "Réinitialiser le mot de passe",
             'form' => $form,
         ]);
     }
@@ -75,10 +76,6 @@ class UserController extends CustomController
             if($user === null)
             {
                 $error_message = 'Cet utilisateur n\'existe pas';
-                // $this->addFlash(
-                //     'danger',
-                //     "Cet utilisateur n\'existe pas"
-                // );
             }
             else
             {
@@ -88,7 +85,8 @@ class UserController extends CustomController
                 try
                 {   
                     $this->sendEmail($mailer, $user);
-                    return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+                    $error_message = 'Un email a été envoyé avec un lien pour réinitialiser le mot de passe.';
+                    // return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
                 }
                 catch(TransportException $e)
                 {
@@ -98,7 +96,8 @@ class UserController extends CustomController
         }
 
         return $this->renderForm('user/forgotten_password.html.twig', [
-            // 'user' => $user,
+            'user' => $user,
+            'title' => "Mot de passe oublié",
             'form' => $form,
             'error_message' => $error_message,
         ]);
@@ -127,17 +126,20 @@ class UserController extends CustomController
                             $form->get('plainPassword')->getData()
                         )
                     );
+                    $user->setToken(null);
                     $this->getDoctrine()->getManager()->flush();
-                    return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+                    $error_message = "Le mot de passe a bien été modofié, veuillez vous connecter.";
+                    // return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
                 }
                 else
                 {
-                    $error_message = "Impossible d\'effectuer le changement pour cause de mauvais token";
+                    $error_message = "Impossible d'effectuer le changement pour cause de mauvais token.";
                 }
             }
         }
         return $this->renderForm('user/reset_password_from_link.html.twig', [
              'error_message' => $error_message,
+             'title' => "Réinitialiser le mot de passe",
              'form' => $form,
         ]);
     }
@@ -167,12 +169,16 @@ class UserController extends CustomController
         
         // path of the Twig template to render
         ->htmlTemplate('email/reset_password.html.twig', [
-            'user' => $user
+            'user' => $user,
+            'headerImage' => "home",
+            'title' => "Modifier mot de passe"
         ])
 
         // pass variables (name => value) to the template
         ->context([
-            'user' => $user
+            'user' => $user,
+            'headerImage' => "home",
+            'title' => "Modifier mot de passe"
         ]);
         $mailerInterface->send($email);
     }

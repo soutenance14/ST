@@ -1,4 +1,6 @@
+
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <h3>{{ form_label(form.email, 'Email') }}</h3>
+        {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+    <button class="btn btn-secondary" style="margin-top: 10px">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

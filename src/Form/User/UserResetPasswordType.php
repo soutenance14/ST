@@ -34,8 +34,14 @@ class UserResetPasswordType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-                'first_options'  => ['label' => 'Password'],
-                'second_options' => ['label' => 'Repeat Password'],
+                'first_options'  => ['label' => 'Mot de passe', 'attr'=> [
+                'class' => 'form-control'
+                ]
+            ],
+                'second_options' => ['label' => 'Confirmation mot de passe', 'attr'=> [
+                    'class' => 'form-control'
+                    ]
+                ],
             ])
         ;
     }
