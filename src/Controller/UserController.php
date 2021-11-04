@@ -96,7 +96,7 @@ class UserController extends CustomController
         }
 
         return $this->renderForm('user/forgotten_password.html.twig', [
-            'user' => $user,
+            'user' => $this->getUser(),
             'title' => "Mot de passe oublié",
             'form' => $form,
             'error_message' => $error_message,
@@ -138,6 +138,7 @@ class UserController extends CustomController
             }
         }
         return $this->renderForm('user/reset_password_from_link.html.twig', [
+             'user' => $this->getUser(),
              'error_message' => $error_message,
              'title' => "Réinitialiser le mot de passe",
              'form' => $form,
