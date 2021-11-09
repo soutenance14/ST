@@ -28,6 +28,10 @@
         {% endblock %}
         <!-- Masthead-->
         {% block header %}
+            {% if headerImage is defined %}
+            {% else %}  
+                {% set headerImage = 'home' %} 
+            {% endif %}
             <header class="masthead" style="background-image: url('{{ asset('image/' ~ headerImage ~ '.jpg') }}')">
                 <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
                     <div class="d-flex justify-content-center">
