@@ -20,14 +20,6 @@ class UserRegistrationFormType extends AbstractType
         $builder
             ->add('email')
             ->add('username')
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
-                ],
-            ])
             ->add('plainPassword', RepeatedType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
@@ -45,8 +37,14 @@ class UserRegistrationFormType extends AbstractType
                         'max' => 4096,
                     ]),
                 ],
-                'first_options'  => ['label' => 'Password'],
-                'second_options' => ['label' => 'Repeat Password'],
+                'first_options'  => ['label' => 'Mot de passe', 'attr'=> [
+                    'class' => 'form-control'
+                    ]
+                ],
+                'second_options' => ['label' => 'Confirmation mot de passe', 'attr'=> [
+                    'class' => 'form-control'
+                    ]
+                ],
             ])
         ;
     }
