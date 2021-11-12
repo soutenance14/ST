@@ -13,8 +13,11 @@
     padding:10px;
     font-style: italic;
 }
-.comments {
+/* .comments {
     padding-bottom: 40px;
+} */
+#load_more {
+    margin-top: 40px;
 }
 #loading-gif {
     display: none;

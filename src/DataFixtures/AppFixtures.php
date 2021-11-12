@@ -90,21 +90,23 @@ class AppFixtures extends Fixture
 
         $user1 = $this->makeUser('soutenance14@gmail.com', 'soutenance14', 'password');
         $user2 = $this->makeUser('soutenance20@gmail.com', 'soutenance20', 'password');
-        // $user3 =$this->makeUser('test@gmail.com', 'test', 'password');
+        $user3 =$this->makeUser('test@gmail.com', 'test', 'password');
+        $user4 =$this->makeUser('test2@gmail.com', 'test2', 'password');
+        $user5 =$this->makeUser('test3@gmail.com', 'test3', 'password');
         
         $category1 = $this->makeCategory('Flip');
         $category2 = $this->makeCategory('Slide');
-        // $category3 = $this->makeCategory('Rotation');
+        $category3 = $this->makeCategory('Rotation');
 
-        $trick1 = $this->makeTrick($user1, new DateTimeImmutable(), $category1, "titre1", "content1");
+        $trick1 = $this->makeTrick($user1, new DateTimeImmutable("2021-10-11"), $category1, "titre1", "content1");
         $this->makeImage("blog-icon-e194a09251443323394dbe88e571b064.png", $trick1);
         $this->makeImage("aa.png", $trick1);
         $this->makeVideo("https://www.youtube.com/embed/OK_JCtrrv-c", $trick1);
         
-        $trick2 = $this->makeTrick($user1, new DateTimeImmutable(), $category1, "titre2", "content2");
+        $trick2 = $this->makeTrick($user1, new DateTimeImmutable("2021-11-11"), $category1, "titre2", "content2");
         $this->makeImage("bb.png", $trick2);
         
-        $trick3 = $this->makeTrick($user1, new DateTimeImmutable(), $category2, "titre3", "content3");
+        $trick3 = $this->makeTrick($user2, new DateTimeImmutable("2021-11-12"), $category2, "titre3", "content3");
         $this->makeImage("cc.png", $trick3);
         $this->makeImage("dd.png", $trick3);
         $this->makeImage("ee.png", $trick3);
@@ -115,7 +117,11 @@ class AppFixtures extends Fixture
         $this->makeComment($user2, $trick1, "pas mal");
         $this->makeComment($user1, $trick2, "test de commentaire");
         $this->makeComment($user1, $trick2, "jolie trick");
-        $this->makeComment($user2, $trick2, "test de commentaire");
+        $this->makeComment($user2, $trick2, "beau flip");
+        $this->makeComment($user3, $trick2, "belles explications");
+        $this->makeComment($user4, $trick2, "c'est tres interessant");
+        $this->makeComment($user5, $trick2, "très clair");
+
         $this->manager->flush();
     }
 }
