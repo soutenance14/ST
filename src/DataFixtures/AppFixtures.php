@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
+use App\Entity\Comment;
 use App\Entity\Image;
 use App\Entity\Trick;
 use App\Entity\User;
@@ -71,13 +72,24 @@ class AppFixtures extends Fixture
         $this->manager->persist($video);
         return $video;
     }
+    
+    private function makeComment($user, $trick, $contenu): Comment
+    {
+        $comment = new Comment();
+        $comment->setContenu($contenu);
+        $comment->setUser($user);
+        $comment->setTrick($trick);
+        $comment->setCreatedAt(new DateTimeImmutable());
+        $this->manager->persist($comment);
+        return $comment;
+    }
 
     public function load(ObjectManager $manager): void
     {
         $this->manager = $manager;
 
         $user1 = $this->makeUser('soutenance14@gmail.com', 'soutenance14', 'password');
-        // $user2 = $this->makeUser('soutenance20@gmail.com', 'soutenance20', 'password');
+        $user2 = $this->makeUser('soutenance20@gmail.com', 'soutenance20', 'password');
         // $user3 =$this->makeUser('test@gmail.com', 'test', 'password');
         
         $category1 = $this->makeCategory('Flip');
@@ -99,6 +111,11 @@ class AppFixtures extends Fixture
         $this->makeVideo("https://www.youtube.com/embed/OK_JCtrrv-c", $trick3);
         $this->makeVideo("https://www.youtube.com/embed/OK_JCtrrv-c", $trick3);
         
+        $this->makeComment($user1, $trick1, "c'est jolie");
+        $this->makeComment($user2, $trick1, "pas mal");
+        $this->makeComment($user1, $trick2, "test de commentaire");
+        $this->makeComment($user1, $trick2, "jolie trick");
+        $this->makeComment($user2, $trick2, "test de commentaire");
         $this->manager->flush();
     }
 }
