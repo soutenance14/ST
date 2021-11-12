@@ -78,11 +78,11 @@ class AppFixtures extends Fixture
 
         $user1 = $this->makeUser('soutenance14@gmail.com', 'soutenance14', 'password');
         // $user2 = $this->makeUser('soutenance20@gmail.com', 'soutenance20', 'password');
-        // $user3 =$this->makeUser('asmr.recuperer@gmail.com', 'recuperer', 'password');
+        // $user3 =$this->makeUser('test@gmail.com', 'test', 'password');
         
         $category1 = $this->makeCategory('Flip');
         $category2 = $this->makeCategory('Slide');
-        $category3 = $this->makeCategory('Rotation');
+        // $category3 = $this->makeCategory('Rotation');
 
         $trick1 = $this->makeTrick($user1, new DateTimeImmutable(), $category1, "titre1", "content1");
         $this->makeImage("blog-icon-e194a09251443323394dbe88e571b064.png", $trick1);
@@ -95,6 +95,9 @@ class AppFixtures extends Fixture
         $trick3 = $this->makeTrick($user1, new DateTimeImmutable(), $category2, "titre3", "content3");
         $this->makeImage("cc.png", $trick3);
         $this->makeImage("dd.png", $trick3);
+        $this->makeImage("ee.png", $trick3);
+        $this->makeVideo("https://www.youtube.com/embed/OK_JCtrrv-c", $trick3);
+        $this->makeVideo("https://www.youtube.com/embed/OK_JCtrrv-c", $trick3);
         
         $this->manager->flush();
     }
