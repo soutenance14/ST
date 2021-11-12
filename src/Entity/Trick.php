@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
@@ -111,9 +112,18 @@ class Trick
         return $this->slug;
     }
 
-    public function setSlug(string $slug): self
+    public function setSlug(): self
     {
-        $this->slug = $slug;
+        $slugger = new AsciiSlugger('en',[
+            'en' => [
+                '%' => 'percent',
+                '€' => 'euro',
+                '$' => 'dollars',
+                '&' => 'and',
+                '#' => 'hashtag',
+                ]
+            ]);
+        $this->slug = $slugger->slug($this->getTitle());
 
         return $this;
     }
