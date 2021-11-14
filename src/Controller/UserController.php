@@ -128,7 +128,7 @@ class UserController extends CustomController
                     );
                     $user->setToken(null);
                     $this->getDoctrine()->getManager()->flush();
-                    $error_message = "Le mot de passe a bien été modofié, veuillez vous connecter.";
+                    $error_message = "Le mot de passe a bien été modifié, veuillez vous connecter.";
                     // return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
                 }
                 else

@@ -81,7 +81,7 @@ class TrickController extends CustomController
                 }
                 // second flush for image and video
                 $entityManager->flush();
-                return $this->redirectToRoute('trick_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('trick_show', ["slug"=>$trick->getSlug() ], Response::HTTP_SEE_OTHER);
             }
             // if slug exists in db, a UniqueConstraintViolationException is generated
             catch(UniqueConstraintViolationException $e)
@@ -183,7 +183,7 @@ class TrickController extends CustomController
                
                 // second flush for images and video
                 $entityManager->flush();
-                return $this->redirectToRoute('trick_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('trick_show', ["slug"=>$trick->getSlug() ], Response::HTTP_SEE_OTHER);
             }
             // if slug exists in db, a UniqueConstraintViolationException is generated
             catch(UniqueConstraintViolationException $e)
@@ -234,8 +234,6 @@ class TrickController extends CustomController
             }
             $entityManager->flush();
         }
-
-        // return $this->redirectToRoute('trick_index', [], Response::HTTP_SEE_OTHER);
         return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
     }
     
