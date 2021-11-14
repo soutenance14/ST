@@ -17,6 +17,8 @@ class AppFixtures extends Fixture
 {
     private $encoder;
     private $manager;
+    private $users;
+    private $commentsContent;
 
     public function __construct(UserPasswordEncoderInterface $encoder)
     {
@@ -42,11 +44,13 @@ class AppFixtures extends Fixture
         return $category;
     }
     
-    private function makeTrick($user, $createdAt, $category, $title, $content): Trick
+    private function makeTrick($category, $title, $content): Trick
     {
         $trick = new Trick();
-        $trick->setUser($user);
-        $trick->setCreatedAt($createdAt);
+        $trick->setUser($this->randUser());
+        $month = rand(1, 12);
+        $day = rand(1, 29);// for not probleme with february
+        $trick->setCreatedAt(new DateTimeImmutable("2021-".$month."-".$day));
         $trick->setTitle($title);
         $trick->setSlug();
         $trick->setContent($content);
@@ -73,55 +77,158 @@ class AppFixtures extends Fixture
         return $video;
     }
     
-    private function makeComment($user, $trick, $contenu): Comment
+    private function makeRandComment($trick): Comment
     {
         $comment = new Comment();
-        $comment->setContenu($contenu);
-        $comment->setUser($user);
+        $comment->setContenu($this->randCommentContent());
+        $comment->setUser($this->randUser());
         $comment->setTrick($trick);
-        $comment->setCreatedAt(new DateTimeImmutable());
+        $month = rand(1, 12);
+        $day = rand(1, 29);// for not probleme with february
+        $comment->setCreatedAt(new DateTimeImmutable("2021-".$month."-".$day));
         $this->manager->persist($comment);
         return $comment;
+    }
+
+    private function randUser(): User
+    {
+        return $this->users[rand(0, count($this->users)-1)];
+    }
+    
+    private function randCommentContent(): String
+    {
+        return $this->commentsContent[rand(0, count($this->commentsContent)-1)];
     }
 
     public function load(ObjectManager $manager): void
     {
         $this->manager = $manager;
-
+        /**USER */
         $user1 = $this->makeUser('soutenance14@gmail.com', 'soutenance14', 'password');
         $user2 = $this->makeUser('soutenance20@gmail.com', 'soutenance20', 'password');
         $user3 =$this->makeUser('test@gmail.com', 'test', 'password');
         $user4 =$this->makeUser('test2@gmail.com', 'test2', 'password');
         $user5 =$this->makeUser('test3@gmail.com', 'test3', 'password');
-        
-        $category1 = $this->makeCategory('Flip');
-        $category2 = $this->makeCategory('Slide');
-        $category3 = $this->makeCategory('Rotation');
+        //instanciate array users
+        $this->users = [$user1, $user2, $user3, $user4, $user5];
+       
+        /**CATEGORY */
+        $category1 = $this->makeCategory('Grabs');
+        $category2 = $this->makeCategory('Flip');
+        $category3 = $this->makeCategory('Slide');
 
-        $trick1 = $this->makeTrick($user1, new DateTimeImmutable("2021-10-11"), $category1, "titre1", "content1");
-        $this->makeImage("blog-icon-e194a09251443323394dbe88e571b064.png", $trick1);
-        $this->makeImage("aa.png", $trick1);
-        $this->makeVideo("https://www.youtube.com/embed/OK_JCtrrv-c", $trick1);
+        /**TRICK + MEDIA */
+        $trick1 = $this->makeTrick($category1, "Stalefish", "Saisie de la carre backside de la planche entre les deux pieds avec la main arrière.");
+        $this->makeImage("stalefish1.jpg", $trick1);
+        $this->makeImage("stalefish2.jpg", $trick1);
+        $this->makeVideo("https://www.youtube.com/embed/0Oez89EoE_c", $trick1);
         
-        $trick2 = $this->makeTrick($user1, new DateTimeImmutable("2021-11-11"), $category1, "titre2", "content2");
-        $this->makeImage("bb.png", $trick2);
+        $trick2 = $this->makeTrick($category1, "backside rodeo 1080", "Trois tours avec une rotation désaxée (Rodeo).");
+        $this->makeImage("backside1080.jpg", $trick2);
+        $this->makeVideo("https://www.youtube.com/embed/vquZvxGMJT0", $trick2);
         
-        $trick3 = $this->makeTrick($user2, new DateTimeImmutable("2021-11-12"), $category2, "titre3", "content3");
-        $this->makeImage("cc.png", $trick3);
-        $this->makeImage("dd.png", $trick3);
-        $this->makeImage("ee.png", $trick3);
-        $this->makeVideo("https://www.youtube.com/embed/OK_JCtrrv-c", $trick3);
-        $this->makeVideo("https://www.youtube.com/embed/OK_JCtrrv-c", $trick3);
-        
-        $this->makeComment($user1, $trick1, "c'est jolie");
-        $this->makeComment($user2, $trick1, "pas mal");
-        $this->makeComment($user1, $trick2, "test de commentaire");
-        $this->makeComment($user1, $trick2, "jolie trick");
-        $this->makeComment($user2, $trick2, "beau flip");
-        $this->makeComment($user3, $trick2, "belles explications");
-        $this->makeComment($user4, $trick2, "c'est tres interessant");
-        $this->makeComment($user5, $trick2, "très clair");
+        $trick3 = $this->makeTrick($category2, "Frontflip", "Rotation en avant.");
+        $this->makeImage("frontflip1.jpg", $trick3);
+        $this->makeImage("frontflip2.jpg", $trick3);
+        $this->makeImage("frontflip3.jpg", $trick3);
 
+        $this->makeVideo("https://www.youtube.com/embed/eGJ8keB1-JM", $trick3);
+        $this->makeVideo("https://www.youtube.com/embed/xhvqu2XBvI0", $trick3);
+        
+        $trick4 = $this->makeTrick($category2, "Backflip", "Rotation en arrière.");
+        $this->makeImage("backflip1.jpg", $trick4);
+        $this->makeImage("backflip2.jpg", $trick4);
+
+        $this->makeVideo("https://www.youtube.com/embed/SlhGVnFPTDE", $trick4);
+        $this->makeVideo("https://www.youtube.com/embed/arzLq-47QFA", $trick4);
+        
+        $trick5 = $this->makeTrick($category2, "Cork", "Un cork est une rotation horizontale plus ou moins désaxée, 
+        selon un mouvement d'épaules effectué juste au moment du saut.");
+        $this->makeImage("cork1.jpg", $trick5);
+        $this->makeImage("cork2.jpg", $trick5);
+        $this->makeVideo("https://www.youtube.com/embed/FMHiSF0rHF8", $trick5);
+        
+        $trick6 = $this->makeTrick($category2, "Rodeo", "Le rodeo est une rotation désaxée, qui se reconnaît par son aspect vrillé.");
+        $this->makeImage("rodeo1.jpg", $trick6);
+        $this->makeVideo("https://www.youtube.com/embed/vf9Z05XY79A", $trick6);
+        
+        $trick7 = $this->makeTrick($category2, "Nose Slide", "Un nose slide consiste à glisser sur une barre de slide avec l'avant de la planche sur la barre.");
+        $this->makeImage("noseslide.jpg", $trick7);
+       
+        $trick8 = $this->makeTrick($category2, "Tail Slide", "Un tail slide consiste à glisser sur une barre de slide avec l'arrière de la planche sur la barre.");
+        $this->makeImage("tailslide.jpg", $trick8);
+        
+        $trick9 = $this->makeTrick($category2, "Truck Driver", "Saisie du carre avant et carre arrière avec chaque main (comme tenir un volant de voiture)");
+        $this->makeImage("truckdriver.jpg", $trick9);
+        
+        $trick10 = $this->makeTrick($category2, "Mute", "Saisie de la carre frontside de la planche entre les deux pieds avec la main avant");
+        // $this->makeImage("mute.jpg", $trick10);
+        
+        $trick11 = $this->makeTrick($category2, "360", "Un tour complet en effectuant une rotation horizontale pendant le saut");
+        $this->makeImage("360.jpg", $trick11);
+        
+        $trick12 = $this->makeTrick($category2, "720", "Deux tours complets en effectuant une rotation horizontale pendant le saut");
+        $this->makeImage("720.jpg", $trick12);
+        
+        $trick13 = $this->makeTrick($category2, "1080", "Trois tours complets en effectuant une rotation horizontale pendant le saut");
+        $this->makeImage("1080.jpg", $trick13);
+        
+        $trick14 = $this->makeTrick($category2, "Rocket air", "Before you challenge this trick, 
+        be sure to check the following points in advance.");
+        $this->makeImage("rocketair.jpg", $trick14);
+        $this->makeVideo("ySVGdt_hom4", $trick14);
+        
+        // $tricks = [
+        //     $trick1, $trick2, $trick3, $trick4, $trick5, $trick6, 
+        //     $trick7, $trick8, $trick9, $trick10, $trick11, $trick12,
+        //     $trick13, $trick14 
+        // ];
+
+        $this->commentsContent = [
+            "C'est jolie", "Pas mal", "Beau mouvement", "Très instructif",
+            "Je ne suis pas d'accord", "Pourquoi pas", "Etonnant", "Remarquable",
+            "Le meilleur des mouvements", "Plus qu'intéressant", "Je ne connaissais pas ce trick", "merci beaucoup pour cet article",
+            "Magnifique", "Très difficile", "De bonnse sensations", "J'aime bien",
+            "Splendide", "Très physique", "Le matériel requis coûte cher", "C'est quoi ça?",
+        ];
+
+        $this->makeRandComment($trick1);
+        $this->makeRandComment($trick1);
+        $this->makeRandComment($trick1);
+        $this->makeRandComment($trick1);
+        // trick2 backside rodeo 1080 pas de commentaire
+        $this->makeRandComment($trick3);
+        $this->makeRandComment($trick4);
+        $this->makeRandComment($trick4);
+        $this->makeRandComment($trick4);
+        $this->makeRandComment($trick5);
+        $this->makeRandComment($trick5);
+        $this->makeRandComment($trick6);
+        $this->makeRandComment($trick6);
+        $this->makeRandComment($trick6);
+        $this->makeRandComment($trick6);
+        $this->makeRandComment($trick6);
+        $this->makeRandComment($trick6);
+        $this->makeRandComment($trick7);
+        $this->makeRandComment($trick7);
+        $this->makeRandComment($trick8);
+        $this->makeRandComment($trick9);
+        $this->makeRandComment($trick9);
+        $this->makeRandComment($trick9);
+        $this->makeRandComment($trick9);
+        $this->makeRandComment($trick10);
+        $this->makeRandComment($trick11);
+        $this->makeRandComment($trick11);
+        $this->makeRandComment($trick12);
+        $this->makeRandComment($trick12);
+        $this->makeRandComment($trick12);
+        $this->makeRandComment($trick13);
+        $this->makeRandComment($trick13);
+        $this->makeRandComment($trick13);
+        $this->makeRandComment($trick13);
+        $this->makeRandComment($trick14);
+        $this->makeRandComment($trick14);
+       
         $this->manager->flush();
     }
 }

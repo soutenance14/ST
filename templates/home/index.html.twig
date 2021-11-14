@@ -24,7 +24,7 @@
                     {% if trick.images is not empty %}
                         <img src="{{asset('image/trick/' ~ trick.images[0])}}">
                     {% else %}
-                        <img src="{{asset('image/default.png')}}">
+                        <img src="{{asset('image/trick/default.jpg')}}">
                     {% endif %}
                     <a style="text-decoration: none;" 
                         href="{{ path('trick_show', {'slug': trick.slug}) }}">
