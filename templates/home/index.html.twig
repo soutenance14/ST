@@ -21,13 +21,13 @@
         <div id="list-tricks">
             {% for trick in tricks %}
                 <div class="trick-in-list">
+                    <a style="text-decoration: none;" 
+                        href="{{ path('trick_show', {'slug': trick.slug}) }}">
                     {% if trick.images is not empty %}
                         <img src="{{asset('image/trick/' ~ trick.images[0])}}">
                     {% else %}
                         <img src="{{asset('image/trick/default.jpg')}}">
                     {% endif %}
-                    <a style="text-decoration: none;" 
-                        href="{{ path('trick_show', {'slug': trick.slug}) }}">
                         <h5 style="margin-top: 10px" class="text-overflow h5-resize">{{ trick.title }}</h5>
                     </a>
                      {% if user is not null and trick.user.id == user.id %}
@@ -42,7 +42,7 @@
             {% endfor %}
             <div class="clear"></div>
         </div>
-        <a class="btn btn-primary" id="button_hide" href="#">Cacher Tricks</a>
+        <a class="btn btn-primary" id="button_hide" href="#">Haut de Page</a>
     </div>
 {% endblock %}
 {% block script %}

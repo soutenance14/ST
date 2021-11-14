@@ -20,12 +20,7 @@
                 <ul class="navbar-nav ms-auto py-4 py-lg-0">
                     {% block menu %}
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('home') }}">Accueil</a></li>
-                        {% block tricks %}
-                        {# TODO supprimer le bloc pas le lien
-                        sauf si vraiment utile plus tard
-                         #}
-                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('trick_index') }}">Tricks</a></li>
-                        {% endblock %}
+                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ path('home') }}#list-tricks">Tricks</a></li>
                         {% block menuSupplement %}
                         {% endblock %}
                     {% endblock %}
