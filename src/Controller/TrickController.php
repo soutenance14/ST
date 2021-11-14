@@ -9,13 +9,10 @@ use App\Form\Trick\TrickNewType;
 use App\Repository\TrickRepository;
 use DateTimeImmutable;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
  * @Route("/trick")
@@ -60,22 +57,8 @@ class TrickController extends CustomController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //slugger part
-            //en for the moment, maybe fr after
-            $slugger = new AsciiSlugger('en',[
-                'en' => [
-                    '%' => 'percent',
-                    '€' => 'euro',
-                    '$' => 'dollars',
-                    '&' => 'and',
-                    '#' => 'hashtag',
-                    ]
-                ]);
             $entityManager = $this->getDoctrine()->getManager();
-            $slug = $slugger->slug($trick->getTitle());
-            //can use this to
-            // $slug = $slugger->slug($form->get('title')->getData());
-            $trick->setSlug($slug);
+            $trick->setSlug();
             $trick->setUser($this->getUser());
             $trick->setCreatedAt(new DateTimeImmutable());
             $entityManager->persist($trick);
@@ -145,22 +128,9 @@ class TrickController extends CustomController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-           //slugger part
-            //en for the moment, maybe fr after
-            $slugger = new AsciiSlugger('en',[
-                'en' => [
-                    '%' => 'percent',
-                    '€' => 'euro',
-                    '$' => 'dollars',
-                    '&' => 'and',
-                    '#' => 'hashtag',
-                    ]
-                ]);
             $entityManager = $this->getDoctrine()->getManager();
-            $slug = $slugger->slug($trick->getTitle());
             //can use this to
-            // $slug = $slugger->slug($form->get('title')->getData());
-            $trick->setSlug($slug);
+            $trick->setSlug();
             // $trick->setUser($this->getUser());
             $trick->setUpdatedAt(new DateTimeImmutable());
             $entityManager->persist($trick);
