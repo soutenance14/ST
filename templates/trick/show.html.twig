@@ -5,7 +5,7 @@
 {% endblock %}
 {% block header %}
     {% if trick.images is empty %}
-        {% set headerImage = "home.jpg" %}
+        {% set headerImage = "trick/default.jpg" %}
     {% else %}
         {% set headerImage = "trick/" ~ trick.images[0].name %}
     {% endif %}
