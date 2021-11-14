@@ -4,28 +4,32 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 abstract class CustomController extends AbstractController
 {
+    private $parameters;
+
     public function render(string $view, array $parameters = [], Response $response = null): Response
     {
-        $parameters["user"] = $this->getUser();
-        if(!in_array("headerImage", $parameters))
-        {
-            $parameters["headerImage"] = "home";
-        }
-        return parent::render($view, $parameters, $response);
+        $this->parameters = $parameters;
+        $this->addParamaters("user", $this->getUser());
+        $this->addParamaters("headerImage", "home");
+        return parent::render($view, $this->parameters, $response);
     }
     
     public function renderForm(string $view, array $parameters = [], Response $response = null): Response
     {
-        $parameters["user"] = $this->getUser();
-        if(!in_array("headerImage", $parameters))
-        {
-            $parameters["headerImage"] = "home";
-        }
-        return parent::renderForm($view, $parameters, $response);
+        $this->parameters = $parameters;
+        $this->addParamaters("user", $this->getUser());
+        $this->addParamaters("headerImage", "home");
+        return parent::renderForm($view, $this->parameters, $response);
     }
 
+    private function addParamaters($indice, $value)
+    {
+        if(!in_array($indice, $this->parameters))
+        {
+            $this->parameters[$indice] = $value;
+        }
+    }
 }

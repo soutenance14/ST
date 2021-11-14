@@ -96,7 +96,7 @@ class UserController extends CustomController
         }
 
         return $this->renderForm('user/forgotten_password.html.twig', [
-            'user' => $this->getUser(),
+            // 'user' => $this->getUser(),
             'title' => "Mot de passe oublié",
             'form' => $form,
             'error_message' => $error_message,
@@ -138,26 +138,12 @@ class UserController extends CustomController
             }
         }
         return $this->renderForm('user/reset_password_from_link.html.twig', [
-             'user' => $this->getUser(),
+            //  'user' => $this->getUser(),
              'error_message' => $error_message,
              'title' => "Réinitialiser le mot de passe",
              'form' => $form,
         ]);
     }
-
-    // /**
-    //  * @Route("/delete", name="user_delete", methods={"POST"})
-    //  */
-    // public function delete(Request $request, User $user): Response
-    // {
-    //     if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
-    //         $entityManager = $this->getDoctrine()->getManager();
-    //         $entityManager->remove($user);
-    //         $entityManager->flush();
-    //     }
-
-    //     return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
-    // }
 
     private function sendEmail(MailerInterface $mailerInterface, $user)
     {
@@ -171,7 +157,6 @@ class UserController extends CustomController
         // path of the Twig template to render
         ->htmlTemplate('email/reset_password.html.twig', [
             'user' => $user,
-            'headerImage' => "home",
             'title' => "Modifier mot de passe"
         ])
 

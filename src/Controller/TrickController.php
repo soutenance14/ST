@@ -19,17 +19,6 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TrickController extends CustomController
 {
-    // /**
-    //  * @Route("/", name="trick_index", methods={"GET"})
-    //  */
-    // public function index(TrickRepository $trickRepository): Response
-    // {
-    //     return $this->render('trick/index.html.twig', [
-    //         'tricks' => $trickRepository->findAll(),
-    //         'title' => 'Tricks'
-    //     ]);
-    // }
-
      /**
      * @Route("/page/{slug}", name="trick_show", methods={"GET"})
      */
@@ -42,7 +31,6 @@ class TrickController extends CustomController
             'limitComment' => 2,
             'user' => $this->getUser(),
             'title' => $trick->getTitle(),
-            'headerImage' => "home",
         ]);
     }
 
