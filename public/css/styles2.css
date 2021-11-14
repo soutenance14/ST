@@ -11470,7 +11470,7 @@ body {
 
 #mainNav {
   min-height: 3.5rem;
-  background-color: #000;
+  background-color: #fff;
 }
 #mainNav .navbar-toggler {
   font-size: 80%;
@@ -11487,7 +11487,6 @@ body {
   padding: 0.9rem 0;
 }
 #mainNav .navbar-nav .nav-item:hover {
-  color: fade(#fff, 80%);
   outline: none;
   background-color: transparent;
 }
@@ -11500,27 +11499,15 @@ body {
     padding-top: 0;
     padding-bottom: 0;
     border-bottom: none;
-    background-color: #000;
-    /* background-color: transparent; */
+    background-color: #fff;
     transition: background-color 0.3s ease-in-out;
   }
   #mainNav .navbar-brand {
     padding: 0.5rem 0;
-    color: rgba(255, 255, 255, 0.5);
   }
   #mainNav .nav-link {
     transition: none;
     padding: 2rem 1.5rem;
-    color: rgba(255, 255, 255, 0.5);
-  }
-  #mainNav .nav-link:hover {
-    color: rgba(255, 255, 255, 0.75);
-  }
-  #mainNav .nav-link:active {
-    color: #fff;
-  }
-  #mainNav.navbar-shrink {
-    background-color: #fff;
   }
   #mainNav.navbar-shrink .navbar-brand {
     color: #000;
