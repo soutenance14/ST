@@ -27,12 +27,14 @@
     
         <h5>Videos</h5>
         
-        <ul class="videos" data-prototype="{{ form_widget(form.videos.vars.prototype, 
-            {'attr': {'class': 'video-url-widget'}})|e('html_attr') }}"></ul>
+       <ul class="videos" data-prototype="{{ form_widget(form.videos.vars.prototype, 
+            {'attr': {'class': 'video-url-add'}})|e('html_attr') }}"></ul>
             <button type="button" class="add_item_link form-control" data-collection-holder-class="videos">Ajouter vidéo</button>
             {% for video in form.videos %}
                 <li>{{ form_widget(video.url) }}</li>
             {% endfor %}
+            {# form_widget(form.videos) is necessary for not display the label New Videos #}
+            {{ form_widget(form.videos) }}
         </ul>
         <br>
         <button class="btn btn-primary">{{ button_label|default('Créer') }}</button>
