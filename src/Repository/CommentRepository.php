@@ -30,6 +30,7 @@ class CommentRepository extends ServiceEntityRepository
             ->setParameter('val', $trickId)
             ->setFirstResult($offset)
             ->setMaxResults($limit)
+            ->orderBy('c.createdAt', 'DESC')
             ->getQuery()
             ->getResult()
         ;

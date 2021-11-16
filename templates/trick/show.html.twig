@@ -76,10 +76,13 @@
         </h5>
     {% endif %}
     <hr>
+    {% if user is not null and user.roles is not null and "ROLE_SUBSCRIBER"  in user.roles %}
+         {{ include('comment/new.html.twig') }}
+    {% endif %}
     <h3>Commentaire</h3> 
     <div id="comments-part">
     </div>
-    <button id="load_more" class="btn btn-primary">Load More</button>
+    <button id="load_more" class="btn btn-primary">Voir plus</button>
     <img id="loading-gif" src="{{ asset('image/gif/loading.gif') }}">
     <div id="error-comment"></div>
 {% endblock %}

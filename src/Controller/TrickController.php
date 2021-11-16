@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Image;
 use App\Entity\Trick;
+use App\Form\CommentType;
 use App\Form\Trick\TrickEditType;
 use App\Form\Trick\TrickNewType;
 use App\Repository\TrickRepository;
@@ -20,17 +22,40 @@ use Symfony\Component\Routing\Annotation\Route;
 class TrickController extends CustomController
 {
      /**
-     * @Route("/page/{slug}", name="trick_show", methods={"GET"})
+     * @Route("/page/{slug}", name="trick_show", methods={"GET", "POST"})
      */
-    public function show(TrickRepository $trickRepo, $slug): Response
+    public function show(Request $request, TrickRepository $trickRepo, $slug): Response
     {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // $id_post = $form->get("id_post")->getData();    
+            $comment->setUser($this->getUser());
+            $comment->setTrick($trickRepo->findBySlugDesc($slug));
+            $comment->setCreatedAt(new DateTimeImmutable());
+            
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('trick_show', ["slug"=> $slug], Response::HTTP_SEE_OTHER);
+        }
+
+        // return $this->renderForm('comment/new.html.twig', [
+        //     // 'comment' => $comment,
+        //     'form' => $form,
+        // ]);
+
         $trick = $trickRepo->findBySlugDesc($slug);
-        return $this->render('trick/show.html.twig', [
+        return $this->renderForm('trick/show.html.twig', [
             'trick' => $trick,
             'offsetComment' => 0,
             'limitComment' => 2,
             'user' => $this->getUser(),
             'title' => $trick->getTitle(),
+            'form' => $form,
         ]);
     }
 

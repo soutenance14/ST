@@ -1,11 +1,7 @@
-{# {% extends 'base.html.twig' %} #}
-
-{% block title %}New Comment{% endblock %}
-
-{% block body %}
-    <h1>Create new Comment</h1>
-
-    {{ include('comment/_form.html.twig') }}
-
-    <a href="{{ path('comment_index') }}">back to list</a>
-{% endblock %}
+{{ form_start(form) }}
+<h5>{{ form_label(form.contenu, "Laisser un Commentaire") }}</h5>
+{{ form_widget(form.contenu, {'attr': {'class': 'form-control'}}) }}
+<br>
+<button class="btn btn-primary">{{ button_label|default('Créer') }}</button>
+{{ form_end(form) }}
+<hr>
