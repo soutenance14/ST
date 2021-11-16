@@ -142,7 +142,7 @@ class AppFixtures extends Fixture
         $this->makeVideo("https://www.youtube.com/embed/SlhGVnFPTDE", $trick4);
         $this->makeVideo("https://www.youtube.com/embed/arzLq-47QFA", $trick4);
         
-        $trick5 = $this->makeTrick($category2, "Cork", "Un cork est une rotation horizontale plus ou moins désaxée, 
+        $trick5 = $this->makeTrick($category3, "Cork", "Un cork est une rotation horizontale plus ou moins désaxée, 
         selon un mouvement d'épaules effectué juste au moment du saut.");
         $this->makeImage("cork1.jpg", $trick5);
         $this->makeImage("cork2.jpg", $trick5);
@@ -152,16 +152,16 @@ class AppFixtures extends Fixture
         $this->makeImage("rodeo1.jpg", $trick6);
         $this->makeVideo("https://www.youtube.com/embed/vf9Z05XY79A", $trick6);
         
-        $trick7 = $this->makeTrick($category2, "Nose Slide", "Un nose slide consiste à glisser sur une barre de slide avec l'avant de la planche sur la barre.");
+        $trick7 = $this->makeTrick($category3, "Nose Slide", "Un nose slide consiste à glisser sur une barre de slide avec l'avant de la planche sur la barre.");
         $this->makeImage("noseslide.jpg", $trick7);
        
-        $trick8 = $this->makeTrick($category2, "Tail Slide", "Un tail slide consiste à glisser sur une barre de slide avec l'arrière de la planche sur la barre.");
+        $trick8 = $this->makeTrick($category3, "Tail Slide", "Un tail slide consiste à glisser sur une barre de slide avec l'arrière de la planche sur la barre.");
         $this->makeImage("tailslide.jpg", $trick8);
         
-        $trick9 = $this->makeTrick($category2, "Truck Driver", "Saisie du carre avant et carre arrière avec chaque main (comme tenir un volant de voiture)");
+        $trick9 = $this->makeTrick($category1, "Truck Driver", "Saisie du carre avant et carre arrière avec chaque main (comme tenir un volant de voiture)");
         $this->makeImage("truckdriver.jpg", $trick9);
         
-        $trick10 = $this->makeTrick($category2, "Mute", "Saisie de la carre frontside de la planche entre les deux pieds avec la main avant");
+        $trick10 = $this->makeTrick($category1, "Mute", "Saisie de la carre frontside de la planche entre les deux pieds avec la main avant");
         // $this->makeImage("mute.jpg", $trick10);
         
         $trick11 = $this->makeTrick($category2, "360", "Un tour complet en effectuant une rotation horizontale pendant le saut");
@@ -173,16 +173,10 @@ class AppFixtures extends Fixture
         $trick13 = $this->makeTrick($category2, "1080", "Trois tours complets en effectuant une rotation horizontale pendant le saut");
         $this->makeImage("1080.jpg", $trick13);
         
-        $trick14 = $this->makeTrick($category2, "Rocket air", "Before you challenge this trick, 
+        $trick14 = $this->makeTrick($category1, "Rocket air", "Before you challenge this trick, 
         be sure to check the following points in advance.");
         $this->makeImage("rocketair.jpg", $trick14);
         $this->makeVideo("ySVGdt_hom4", $trick14);
-        
-        // $tricks = [
-        //     $trick1, $trick2, $trick3, $trick4, $trick5, $trick6, 
-        //     $trick7, $trick8, $trick9, $trick10, $trick11, $trick12,
-        //     $trick13, $trick14 
-        // ];
 
         $this->commentsContent = [
             "C'est jolie", "Pas mal", "Beau mouvement", "Très instructif",
