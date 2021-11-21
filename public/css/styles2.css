@@ -11686,8 +11686,11 @@ body {
 body, #mainNav, .navbar, .container {
   min-width: 300px;
 }
-
 .margin-bottom {
   margin-bottom: 20px;
   padding: 10px;
+}
+.alert-danger {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }

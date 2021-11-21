@@ -6,6 +6,11 @@
 {% endblock %}
 
 {% block container %}
+    {% if error_message != false %}
+        <div class="alert alert-danger">
+            {{ error_message }}
+        </div>
+    {% endif %}
     {{ form_start(form) }}
     <div class="margin-bottom">
        <h3>{{ form_label(form.category, 'Catégorie') }}</h3>

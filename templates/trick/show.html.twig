@@ -43,7 +43,6 @@
         <h5 class="list-inline-item btn btn-secondary info-trick">
             Crée le
             {{ trick.createdAt ? trick.createdAt|date('d/m/Y') : '' }}
-            {# à {{ trick.createdAt ? trick.createdAt|date('H:i') : '' }} #}
         </h5>
     </div>
     <div id="tricks-media">
@@ -72,7 +71,6 @@
         <h5 class="list-inline-item btn btn-secondary info-trick">
             Dernière modification le
             {{ trick.updatedAt ? trick.updatedAt|date('d/m/Y') : '' }}
-            {# à {{ trick.updatedAt ? trick.updatedAt|date('H:i') : '' }} #}
         </h5>
     {% endif %}
     <hr>

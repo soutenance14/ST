@@ -6,6 +6,11 @@
 {% endblock %}
 
 {% block container %}
+    {% if error_message != false %}
+        <div class="alert alert-danger">
+            {{ error_message }}
+        </div>
+    {% endif %}
     <div class="form-trick">
         {{ form_start(form) }}
 
@@ -40,11 +45,6 @@
         <button class="btn btn-primary">{{ button_label|default('Créer') }}</button>
         {{ form_end(form) }}
 
-        {% if error_message != false %}
-            <div class="alert alert-danger">
-                {{ error_message }}
-            </div>
-        {% endif %}
     </div>
 {% endblock %}
 {% block script %}
