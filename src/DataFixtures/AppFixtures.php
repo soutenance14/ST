@@ -48,7 +48,7 @@ class AppFixtures extends Fixture
     {
         $trick = new Trick();
         $trick->setUser($this->randUser());
-        $month = rand(1, 12);
+        $month = rand(1, 10);
         $day = rand(1, 29);// for not probleme with february
         $trick->setCreatedAt(new DateTimeImmutable("2021-".$month."-".$day));
         $trick->setTitle($title);
@@ -83,7 +83,7 @@ class AppFixtures extends Fixture
         $comment->setContenu($this->randCommentContent());
         $comment->setUser($this->randUser());
         $comment->setTrick($trick);
-        $month = rand(1, 12);
+        $month = rand(1, 10);
         $day = rand(1, 29);// for not probleme with february
         $comment->setCreatedAt(new DateTimeImmutable("2021-".$month."-".$day));
         $this->manager->persist($comment);
