@@ -1,0 +1,14 @@
+{% set title = 'Droit insuffisant' %}
+{% set headerImage = 'lock' %}
+{% extends 'base.html.twig' %}
+{% block css %}
+    <link href="{{ asset('css/error.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block container %}
+    <p id="container-error">
+        Désolé, Vous devez être l'auteur du trick pour pouvoir le modifier.
+        <br>
+        <a href="{{ path('home') }}">Retour à l'accueil </a>.
+    </p>
+{% endblock %}

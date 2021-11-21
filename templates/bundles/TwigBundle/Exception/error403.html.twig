@@ -1,0 +1,14 @@
+{% set title = 'Erreur 403, violation d\'accès' %}
+{% set headerImage = 'lock' %}
+{% extends 'base.html.twig' %}
+{% block css %}
+    <link href="{{ asset('css/error.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block container %}
+    <p id="container-error">
+        Désolé, vous n'avez pas les droits nécessaires pour accéder à cette partie
+        <br>
+        <a href="{{ path('home') }}">Retour à l'accueil </a>.
+    </p>
+{% endblock %}

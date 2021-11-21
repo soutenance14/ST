@@ -13,7 +13,7 @@ class AccessDeniedHandler extends AbstractController implements AccessDeniedHand
     public function handle(Request $request, AccessDeniedException $accessDeniedException): ?Response
     {
         $response = new Response();
-        $content = $this->renderView('error/403.html.twig');
+        $content = $this->renderView('bundles/TwigBundle/Exception/error403.html.twig');
         $response->setContent($content);
         return $response;
     }

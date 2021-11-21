@@ -131,8 +131,8 @@ class TrickController extends CustomController
     {
         if($trick->getUser()->getId() !== $this->getUser()->getId())
         {
-            return $this->renderForm('error/403.html.twig', [
-                'title' => 'Erreur 403',
+            return $this->renderForm('error/errorAccess.html.twig', [
+                'title' => 'Droit insuffisant',
                 'message' => 'Trick recherché: '.$trick->getTitle(),
             ]);
         }
@@ -234,8 +234,8 @@ class TrickController extends CustomController
     {
         if($trick->getUser()->getId() !== $this->getUser()->getId())
         {
-            return $this->renderForm('error/403.html.twig', [
-                'title' => 'Erreur 403',
+            return $this->renderForm('error/errorAccess.html.twig', [
+                'title' => 'Droit insuffisant',
                 'message' => 'Trick recherché: '.$trick->getTitle(),
             ]);
         }

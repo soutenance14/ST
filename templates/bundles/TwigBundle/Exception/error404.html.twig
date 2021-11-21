@@ -1,0 +1,14 @@
+{% set title = 'Page Introuvable' %}
+{% set headerImage = '404' %}
+{% extends 'base.html.twig' %}
+{% block css %}
+    <link href="{{ asset('css/error.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block container %}
+    <p id="container-error">
+        Désolé, la page demandée n'existe pas ou plus.
+        <br>
+        <a href="{{ path('home') }}">Retour à l'accueil </a>.
+    </p>
+{% endblock %}

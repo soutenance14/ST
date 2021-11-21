@@ -26,7 +26,10 @@ security:
                 path: app_logout
            
             access_denied_handler: App\Security\AccessDeniedHandler
-                # where to redirect after logout
+                # creer par sécurité, logiquement une 403 est généré est
+                # en cas de problème d'accés et le template error403.html.twig
+                # doit être appelé (dans TwigBundle)
+                # where to redirect after logout<
                 # target: app_any_route
 
             # activate different ways to authenticate
