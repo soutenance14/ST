@@ -33,7 +33,7 @@ class UserEditPasswordType extends AbstractType
                     ]),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Le mot de passe doit être supérieurou égal à {{ limit }} caractères',
+                        'minMessage' => 'Le mot de passe doit être supérieur ou égal à {{ limit }} caractères',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
