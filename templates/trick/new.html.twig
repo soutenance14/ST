@@ -6,11 +6,6 @@
 {% endblock %}
 
 {% block container %}
-    {% if error_message != false %}
-        <div class="alert alert-danger">
-            {{ error_message }}
-        </div>
-    {% endif %}
     <div class="form-trick">
         {{ form_start(form) }}
 
@@ -19,6 +14,7 @@
 
         <h5>{{ form_label(form.title, 'Titre') }}</h5>
         {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.title, {'attr': {'class': 'form-control'}}) }}
 
         <h5>{{ form_label(form.content, 'Description') }}</h5>
         {{ form_widget(form.content, {'attr': {

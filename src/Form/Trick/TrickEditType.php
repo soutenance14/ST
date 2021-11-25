@@ -18,9 +18,7 @@ class TrickEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class, [
-                "mapped" => false
-            ])
+            ->add('title', TextType::class)
             ->add('category')
             ->add('content')
             //edit existing images

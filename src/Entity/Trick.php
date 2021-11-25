@@ -11,7 +11,7 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
- * @UniqueEntity(fields={"title"}, message="There is already an article with this title, or slug auto generate, please change title")
+ * @UniqueEntity(fields={"title"}, message="Il y a déjà un article avec un slug similaire (autogénéré, veuillez changer le titre.)")
  */
 class Trick
 {

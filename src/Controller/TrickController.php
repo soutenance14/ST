@@ -64,62 +64,50 @@ class TrickController extends CustomController
      */
     public function new(Request $request): Response
     {
-        $error_message = false;
         $trick = new Trick();
         $form = $this->createForm(TrickNewType::class, $trick);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $trick->setTitle($form->get("title")->getData());
+            // $trick->setTitle($form->get("title")->getData());
             $trick->setSlug();
             $trick->setUser($this->getUser());
             $trick->setCreatedAt(new DateTimeImmutable());
             $entityManager->persist($trick);
             
-            try
-            {  
-                // if slug not exists in db, trick can be save in db
-                //first flush for trick
-                $entityManager->flush();
+            // if slug not exists in db, trick can be save in db
+            //first flush for trick
+            $entityManager->flush();
 
-                // images part
-                // save image only if UniqueConstraintViolationException
-                // is not generated
-                $images = $form->get("images")->getData();     
-                foreach($images as $fileImage)
-                {
-                    $image = $this->createImageEntity($fileImage);
-                    $this->saveImageInServer($fileImage, $image);
-                    $image->setTrick($trick);
-                    $entityManager->persist($image);
-                }
-
-                //video part
-                $videos = $form->get("videos")->getData();
-                foreach($videos as $video)
-                {
-                    if( null !== $video)
-                    {
-                        $video->setTrick($trick);
-                        $entityManager->persist($video);
-                    }
-                }
-                // second flush for image and video
-                $entityManager->flush();
-                return $this->redirectToRoute('trick_show', ["slug"=>$trick->getSlug() ], Response::HTTP_SEE_OTHER);
-            }
-            // if slug exists in db, a UniqueConstraintViolationException is generated
-            catch(UniqueConstraintViolationException $e)
+            // images part
+            // save image only if UniqueConstraintViolationException
+            // is not generated
+            $images = $form->get("images")->getData();     
+            foreach($images as $fileImage)
             {
-                $error_message = "Un article avec le même slug 
-                (généré par le titre) existe: \""
-                .$trick->getSlug()
-                ."\", veuillez changer le titre de l'article.";
+                $image = $this->createImageEntity($fileImage);
+                $this->saveImageInServer($fileImage, $image);
+                $image->setTrick($trick);
+                $entityManager->persist($image);
             }
+
+            //video part
+            $videos = $form->get("videos")->getData();
+            foreach($videos as $video)
+            {
+                if( null !== $video)
+                {
+                    $video->setTrick($trick);
+                    $entityManager->persist($video);
+                }
+            }
+            // second flush for image and video
+            $entityManager->flush();
+            return $this->redirectToRoute('trick_show', ["slug"=>$trick->getSlug() ], Response::HTTP_SEE_OTHER); 
         }
         return $this->renderForm('trick/new.html.twig', [
-            'error_message' => $error_message,
+            // 'error_message' => $error_message,
             'trick' => $trick,
             'form' => $form,
             'title' => "Créer Trick",
@@ -138,10 +126,9 @@ class TrickController extends CustomController
                 'message' => 'Trick recherché: '.$trick->getTitle(),
             ]);
         }
-        $error_message = false;
         $form = $this->createForm(TrickEditType::class, $trick);
         $form->handleRequest($request);
-
+        // $title_save = $trick->getTitle();
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             //can use this to
@@ -151,79 +138,67 @@ class TrickController extends CustomController
             $trick->setUpdatedAt(new DateTimeImmutable());
             $entityManager->persist($trick);
             
-            try
-            {  
-                // if slug not exists in db, trick can be save in db
-                // if exists, UniqueConstraintViolationException is generated
-                //first flush for trick
-                $entityManager->flush();
+            // if slug not exists in db, trick can be save in db
+            // if exists, UniqueConstraintViolationException is generated
+            //first flush for trick
+            $entityManager->flush();
 
-                // Ipage part (above) only if UniqueConstraintViolationException is not generated
+            // Ipage part (above) only if UniqueConstraintViolationException is not generated
 
-                // Add images part
-                $new_images = $form->get("new_images")->getData();     
-                foreach($new_images as $fileImage)
-                {
-                    $image = $this->createImageEntity($fileImage);
-                    $this->saveImageInServer($fileImage, $image);
-                    $image->setTrick($trick);
-                    $entityManager->persist($image);
-                }
-
-                // Delete existing images part
-                $existing_images = $form->get("images");
-                
-                foreach($existing_images as $existing_image)
-                {
-                    $image = $existing_image->getData();
-                    $delete = $existing_image->get("delete")->getData();
-                    if($delete)
-                    {
-                        $entityManager->remove($image);
-                        $this->deleteImageInServer($image);
-                    }
-                }
-               
-                // Delete or edit existing videos part
-                // if url is updated, this will be saved
-                $existing_videos = $form->get("videos");
-                
-                foreach($existing_videos as $existing_video)
-                {
-                    $video = $existing_video->getData();
-                    $delete = $existing_video->get("delete")->getData();
-                    if($delete)
-                    {
-                        $entityManager->remove($video);
-                    }
-                }
-
-                //new video part
-                $new_videos = $form->get("new_videos")->getData();
-                foreach($new_videos as $video)
-                {
-                    if( null !== $video)
-                    {
-                        $video->setTrick($trick);
-                        $entityManager->persist($video);
-                    }
-                }
-               
-                // second flush for images and video
-                $entityManager->flush();
-                return $this->redirectToRoute('trick_show', ["slug"=>$trick->getSlug() ], Response::HTTP_SEE_OTHER);
-            }
-            // if slug exists in db, a UniqueConstraintViolationException is generated
-            catch(UniqueConstraintViolationException $e)
+            // Add images part
+            $new_images = $form->get("new_images")->getData();     
+            foreach($new_images as $fileImage)
             {
-                $error_message = "Un article avec le même slug 
-                (généré par le titre) existe: \""
-                .$trick->getSlug()
-                ."\", veuillez changer le titre de l'article.";
+                $image = $this->createImageEntity($fileImage);
+                $this->saveImageInServer($fileImage, $image);
+                $image->setTrick($trick);
+                $entityManager->persist($image);
             }
+
+            // Delete existing images part
+            $existing_images = $form->get("images");
+            
+            foreach($existing_images as $existing_image)
+            {
+                $image = $existing_image->getData();
+                $delete = $existing_image->get("delete")->getData();
+                if($delete)
+                {
+                    $entityManager->remove($image);
+                    $this->deleteImageInServer($image);
+                }
+            }
+            
+            // Delete or edit existing videos part
+            // if url is updated, this will be saved
+            $existing_videos = $form->get("videos");
+            
+            foreach($existing_videos as $existing_video)
+            {
+                $video = $existing_video->getData();
+                $delete = $existing_video->get("delete")->getData();
+                if($delete)
+                {
+                    $entityManager->remove($video);
+                }
+            }
+
+            //new video part
+            $new_videos = $form->get("new_videos")->getData();
+            foreach($new_videos as $video)
+            {
+                if( null !== $video)
+                {
+                    $video->setTrick($trick);
+                    $entityManager->persist($video);
+                }
+            }
+            
+            // second flush for images and video
+            $entityManager->flush();
+            return $this->redirectToRoute('trick_show', ["slug"=>$trick->getSlug() ], Response::HTTP_SEE_OTHER);
         }
         return $this->renderForm('trick/edit.html.twig', [
-            'error_message' => $error_message,
             'trick' => $trick,
             'form' => $form,
             'title' => $trick->getTitle(),
