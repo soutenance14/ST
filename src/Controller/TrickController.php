@@ -8,6 +8,7 @@ use App\Entity\Trick;
 use App\Form\CommentType;
 use App\Form\Trick\TrickEditType;
 use App\Form\Trick\TrickNewType;
+use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
 use DateTimeImmutable;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -208,7 +209,7 @@ class TrickController extends CustomController
     /**
      * @Route("/{id}", name="trick_delete", methods={"POST"})
      */
-    public function delete(Request $request, Trick $trick): Response
+    public function delete(Request $request, Trick $trick, CommentRepository $commentRepository): Response
     {
         if($trick->getUser()->getId() !== $this->getUser()->getId())
         {
@@ -223,7 +224,6 @@ class TrickController extends CustomController
                     )
             {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($trick);
             
             foreach($trick->getImages() as $image)
             {
@@ -235,6 +235,12 @@ class TrickController extends CustomController
             {
                 $entityManager->remove($video);
             }
+            
+            $comments = $commentRepository->findBy(["trick"=> $trick]);
+            foreach($comments as $comment){
+                $entityManager->remove($comment);
+            }
+            $entityManager->remove($trick);
             $entityManager->flush();
         }
         return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
