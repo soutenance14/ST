@@ -8,6 +8,8 @@ GIT (https://git-scm.com/downloads)
 https://github.com/soutenance14/ST.git
 ## Use composer
 composer install
+## Install doctrine data fixtures
+composer require doctrine/doctrine-fixtures-bundle
 ## Use credentials in the .env file for the database
 DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=5.7
 ## Get an account on a mail server and use credential in the .env file
