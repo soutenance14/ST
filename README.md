@@ -12,6 +12,8 @@ composer install
 DATABASE_URL=mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=5.7
 ## Get an account on a mail server and use credential in the .env file
 MAILER_DSN=smtp://user:password@server:port?verify_peer=0
+## Add your email for the connexion to the server mail in .env file
+EMAIL ="yout_email@gmail.com"
 ## Create database
 php bin/console doctrine:database:create
 ## Create migrations
